@@ -30,6 +30,7 @@ const userSchema = new Schema(
     },
     phoneNumber: {
       type: String,
+      unique: true,
       required: [true, 'Indica un número de teléfono']
     },
     birthDate: {
@@ -37,13 +38,14 @@ const userSchema = new Schema(
     },
     profileImg: {
       type: String,
+      default: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png'
     },
     interests: {
       type: [String]
     },
-    followedTowns: [{
+    followedVillages: [{
       type: Schema.Types.ObjectId,
-      ref: 'Town'
+      ref: 'Village'
     }],
     favHouses: [{
       type: Schema.Types.ObjectId,

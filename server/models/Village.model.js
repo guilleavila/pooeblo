@@ -1,6 +1,6 @@
 const { Schema, model } = require("mongoose");
 
-const townSchema = new Schema(
+const villageSchema = new Schema(
   {
     name: {
       type: String,
@@ -43,24 +43,30 @@ const townSchema = new Schema(
       },
       coordinates: [Number]
     },
-    characteristics: {
+    features: {
       distanceToCity: {
-        type: Number
+        type: Number,
+        default: 0
       },
       residents: {
-        type: Number
+        type: Number,
+        default: 0
       },
       averageRentingPrice: {
-        type: Number
+        type: Number,
+        default: 0
       },
       averagePurchasePrice: {
-        type: Number
+        type: Number,
+        default: 0
       },
       healthService: {
-        type: Boolean
+        type: Boolean,
+        default: false
       },
       sportsFacilities: {
-        type: Boolean
+        type: Boolean,
+        default: false
       },
       otherServices: {
         type: [String]
@@ -72,4 +78,4 @@ const townSchema = new Schema(
   }
 );
 
-module.exports = model("Town", townSchema);
+module.exports = model("Village", villageSchema);

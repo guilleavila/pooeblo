@@ -33,7 +33,7 @@ const houseSchema = new Schema(
     },
     town: {
       type: Schema.Types.ObjectId,
-      ref: 'Town'
+      ref: 'Village'
     },
     owner: {
       type: Schema.Types.ObjectId,
