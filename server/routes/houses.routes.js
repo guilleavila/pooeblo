@@ -1,0 +1,124 @@
+const router = require('express').Router()
+
+const House = require('./../models/House.model')
+const User = require('./../models/User.model')
+const Subscription = require('./../models/Subscription.model')
+const Booking = require('./../models/Booking.model')
+
+
+// --- GET ALL HOUSES ROUTE
+router.get("/", (req, res) => {
+
+    House
+        .find()
+        .then(response => res.json(response))
+        .catch(err => res.status(500).json(err))
+})
+
+
+// --- CREATE HOUSE ROUTE 
+router.post("/create", (req, res) => {
+
+    const { name, description, services, roomsDescription, maxGuests, images, availableDaysLeft, lat, lng, village, owner } = req.body
+
+    const location = {
+        type: 'Point',
+        coordinates: [lat, lng]
+    }
+
+    House
+        .create({ name, description, services, roomsDescription, maxGuests, images, availableDaysLeft, location, village, owner })
+        .then(response => res.json(response))
+        .catch(err => res.status(500).json(err))
+})
+
+
+// --- HOUSE DETAILS ROUTE
+router.get("/:house_id", (req, res) => {
+
+    const { house_id } = req.params
+
+    House
+        .findById(house_id)
+        .then(response => res.json(response))
+        .catch(err => res.status(500).json(err))
+})
+
+
+// --- EDITE HOUSE ROUTE
+router.put("/:house_id/edit", (req, res) => {
+
+    const { house_id } = req.params
+    const { name, description, services, roomsDescription, maxGuests, images, availableDaysLeft, lat, lng } = req.body
+
+    const location = {
+        type: 'Point',
+        coordinates: [lat, lng]
+    }
+
+    House
+        .findByIdAndUpdate(house_id, { name, description, services, roomsDescription, maxGuests, images, availableDaysLeft, location })
+        .then(response => res.json(response))
+        .catch(err => res.status(500).json(err))
+})
+
+
+// --- DELETE HOUSE ROUTE
+router.delete("/:house_id/delete", (req, res) => {
+
+    const { house_id } = req.params
+
+    House
+        .findByIdAndDelete(house_id)
+        .then(response => res.json(response))
+        .catch(err => res.status(500).json(err))
+})
+
+
+// --- ADD HOUSE TO FAVS ROUTE
+router.put('/:house_id/add-to-fav', (req, res) => {
+
+    const { house_id } = req.params
+    const { user_id } = req.body
+
+    User
+        .findByIdAndUpdate(user_id, { $addToSet: { favHouses: house_id } })
+        .then(response => res.json(response))
+        .catch(err => res.status(500).json(err))
+})
+
+
+// --- SUBTRACT HOUSE FROM FAVS ROUTE
+router.put('/:house_id/subtract-from-fav', (req, res) => {
+
+    const { house_id } = req.params
+    const { user_id } = req.body
+
+    User
+        .findByIdAndUpdate(user_id, { $pull: { favHouses: house_id } })
+        .then(response => res.json(response))
+        .catch(err => res.status(500).json(err))
+})
+
+
+// --- GET ALL BOOKINGS
+router.get('/:house_id/get-bookings', (req, res) => {
+
+    const { house_id } = req.params
+
+    Subscription
+        .find({ house: house_id })
+        .then(foundSubscriptions => {
+
+            foundSubscriptions.forEach((eachSubscription) => {
+
+                return Booking.find({ subscription: eachSubscription._id })
+
+            })
+        })
+        .then(response => res.json(response))
+        .catch(err => res.status(500).json(err))
+})
+
+
+module.exports = router
