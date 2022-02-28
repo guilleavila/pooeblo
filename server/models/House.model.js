@@ -31,7 +31,7 @@ const houseSchema = new Schema(
       },
       coordinates: [Number]
     },
-    town: {
+    village: {
       type: Schema.Types.ObjectId,
       ref: 'Village'
     },
