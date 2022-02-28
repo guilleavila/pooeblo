@@ -24,18 +24,23 @@ const villageSchema = new Schema(
     },
     CCAA: {
       type: String,
+      required: [true, 'Indica una Comunidad Autónoma']
     },
     province: {
       type: String,
+      required: [true, 'Indica una provincia']
     },
     profileImg: {
       type: String,
+      default: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png'
     },
     description: {
       type: String,
+      default: ''
     },
     website: {
       type: String,
+      default: ''
     },
     location: {
       type: {
