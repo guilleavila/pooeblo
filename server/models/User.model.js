@@ -34,6 +34,8 @@ const userSchema = new Schema(
     },
     birthDate: {
       type: Date,
+      required: [true, 'Indica tu fecha de nacimiento']
+
     },
     profileImg: {
       type: String,
