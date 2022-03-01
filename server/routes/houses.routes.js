@@ -110,20 +110,19 @@ router.get('/:house_id/get-bookings', (req, res) => {
         .find({ house: house_id })
         .then(foundSubscriptions => {
 
-            const arr = []
+            let bookings = foundSubscriptions.map(elm => Booking.find({ subscription: elm._id }))
 
-            foundSubscriptions
-                .map((eachSubscription) => {
-
-                    Booking
-                        .find({ subscription: eachSubscription._id })
-                        .then(foundBookings => {
-                            return arr.push(foundBookings)
-                        })
-                })
-
+            return Promise.all(bookings)
         })
-        .then(() => res.json(arr))
+
+        .then((response) => {
+
+            let ultimateArr = []
+
+            response.forEach(elm => ultimateArr.push(...elm))
+            console.log('SPREAD', ultimateArr)
+            return res.json(ultimateArr)
+        })
         .catch(err => res.status(500).json(err))
 })
 
