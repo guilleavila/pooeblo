@@ -17,7 +17,7 @@ router.get('/', (req, res) => {
 // POST --- CREATE SUBSCRIPTION
 router.post('/create', (req, res) => {
 
-    const { coRenter, house, daysLeftToBook } = req.params
+    const { coRenter, house, daysLeftToBook } = req.body
 
     Subscription
         .create({ coRenter, house, daysLeftToBook })

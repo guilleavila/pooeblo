@@ -3,9 +3,6 @@ const router = require('express').Router()
 const Booking = require('../models/Booking.model')
 
 
-// --- GET USER'S SUBSCRIPTION BOOKINGS
-
-
 // --- GET ALL BOOKINGS ROUTE
 router.get("/", (req, res) => {
 

@@ -45,7 +45,7 @@ router.get("/:house_id", (req, res) => {
 })
 
 
-// --- EDITE HOUSE ROUTE
+// --- EDIT HOUSE ROUTE
 router.put("/:house_id/edit", (req, res) => {
 
     const { house_id } = req.params
@@ -110,13 +110,20 @@ router.get('/:house_id/get-bookings', (req, res) => {
         .find({ house: house_id })
         .then(foundSubscriptions => {
 
-            foundSubscriptions.forEach((eachSubscription) => {
+            const arr = []
 
-                return Booking.find({ subscription: eachSubscription._id })
+            foundSubscriptions
+                .map((eachSubscription) => {
 
-            })
+                    Booking
+                        .find({ subscription: eachSubscription._id })
+                        .then(foundBookings => {
+                            return arr.push(foundBookings)
+                        })
+                })
+
         })
-        .then(response => res.json(response))
+        .then(() => res.json(arr))
         .catch(err => res.status(500).json(err))
 })
 
