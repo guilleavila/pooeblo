@@ -4,16 +4,6 @@ const Booking = require('../models/Booking.model')
 const Subscription = require('../models/Subscription.model')
 
 
-// --- GET ALL BOOKINGS ROUTE
-router.get("/", (req, res) => {
-
-    Booking
-        .find()
-        .then(response => res.json(response))
-        .catch(err => res.status(500).json(err))
-})
-
-
 // --- CREATE BOOKING ROUTE 
 router.post("/create", (req, res) => {
 
@@ -35,7 +25,6 @@ router.post("/create", (req, res) => {
             console.log(response)
             res.json(response)
         })
-        .catch(err => res.status(500).json(err))
 })
 
 
@@ -44,6 +33,22 @@ router.get("/:booking_id", (req, res) => {
 
     const { booking_id } = req.params
 
+    Booking
+        .findById(booking_id)
+        .then(response => res.json(response))
+        .catch(err => res.status(500).json(err))
+})
+
+
+// --- BOOKING DELETE ROUTE
+router.delete("/:booking_id/delete", (req, res) => {
+
+    const { booking_id } = req.params
+
+    Booking
+        .findByIdAndDelete(booking_id)
+        .then(response => res.json(response))
+        .catch(err => res.status(500).json(err))
 })
 
 module.exports = router
