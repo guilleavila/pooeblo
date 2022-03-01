@@ -45,11 +45,11 @@ const userSchema = new Schema(
     interests: {
       type: [String]
     },
-    followedVillages: [{
+    followedVillages: [{                  // ruta que saque los pueblos que sigue el usuario
       type: Schema.Types.ObjectId,
       ref: 'Village'
     }],
-    favHouses: [{
+    favHouses: [{                           // ruta que saque las casas favs de el usuario
       type: Schema.Types.ObjectId,
       ref: 'House'
     }]
