@@ -2,6 +2,8 @@ const router = require('express').Router()
 
 const Village = require('../models/Village.model')
 const User = require('../models/User.model')
+const House = require('../models/House.model')
+const Subscription = require('../models/Subscription.model')
 
 
 // GET --- GET ALL VILLAGES
@@ -96,6 +98,32 @@ router.put('/:village_id/unfollow', (req, res) => {
         .findByIdAndUpdate(user_id, { $pull: { followedVillages: village_id } })
         .then(response => res.json(response))
         .catch(err => res.status(500).json(err))
+})
+
+
+// GET --- GET ALL SUBSCRIPTIONS
+router.get('/:village_id/get-all-subscriptions', (req, res) => {
+
+    const { village_id } = req.params
+
+    House
+        .find({ village: village_id })
+        .then(foundHouses => {
+
+            let subscriptions = foundHouses.map(elm => Subscription.find({ house: elm._id }))
+
+            return Promise.all(subscriptions)
+
+        })
+
+        .then((response) => {
+            let ultimateArr = []
+
+            response.forEach(elm => ultimateArr.push(...elm))
+            return res.json(ultimateArr)
+        })
+        .catch(err => res.status(500).json(err))
+
 })
 
 

@@ -11,16 +11,16 @@ A brief description of what this project does and who it's for
 #### SERVER
 
 ```http
-  AUTH /api
+  AUTH /api/auth
 ```
 
 | Parameter | Type     | Description                |
 | :-------- | :------- | :------------------------- |
-| `GET` | `/signup` | Signup |
-| `POST` | `/signup` | Signup |
-| `GET` | `/login` | Login |
-| `POST` | `/login` | Login |
-| `POST` | `/logout` | Logout |
+| `POST` | `/user-signup` | User Signup ✅ |
+| `POST` | `/village-signup` | Village Signup ✅ |
+| `POST` | `/user-login` | User Login ✅ |
+| `POST` | `/village-login` | Village Login ✅ |
+| `POST` | `/verify` | ??? |
 
 ```http
   USERS /api/users
@@ -33,17 +33,19 @@ A brief description of what this project does and who it's for
 | `DELETE` | `/:user_id/delete` | Delete User |
 
 ```http
-  TOWNS /api/towns/
+  VILLAGES /api/villages/
 ```
 
 | Parameter | Type     | Description                |
 | :-------- | :------- | :------------------------- |
-| `GET` | `/` | Get All Towns |
-| `POST` | `/create` | Create Town |
-| `PUT` | `/:town_id/edit` | Edit Town |
-| `DELETE` | `/:town_id/delete` | Delete Town |
-| `PUT` | `/:town_id/follow` | Follow Town |
-| `PUT` | `/:town_id/unfollow` | Unfollow Town |
+| `GET` | `/` | Get All Villages ✅ |
+| `GET` | `/:village_id` | Get One Village ✅ |
+| `PUT` | `/:village_id/edit-info` | Edit Village Info ✅ |
+| `PUT` | `/:village_id/edit-features` | Edit Village Features ✅ |
+| `DELETE` | `/:village_id/delete` | Delete Village ✅ |
+| `PUT` | `/:village_id/follow` | Follow Village ✅ |
+| `PUT` | `/:village_id/unfollow` | Unfollow Village ✅ |
+| `GET` | `/:village_id/get-all-subscriptions` | Get All Subscriptions for One Village ✅ |
 
 
 ```http
@@ -52,12 +54,14 @@ A brief description of what this project does and who it's for
 
 | Parameter | Type     | Description                |
 | :-------- | :------- | :------------------------- |
-| `GET` | `/` | Get All Houses |
-| `POST` | `/create` | Create House |
-| `PUT` | `/:house_id/edit` | Edit House |
-| `DELETE` | `/:house_id/delete` | Delete House |
-| `PUT` | `/:house_id/add-to-fav` | Add House to favs |
-| `PUT` | `/:house_id/subtract-from-fav` | Subtract House from favs |
+| `GET` | `/` | Get All Houses ✅ |
+| `GET` | `/:house_id` | Get One House ✅ |
+| `POST` | `/create` | Create House ✅ |
+| `PUT` | `/:house_id/edit` | Edit House ✅ |
+| `DELETE` | `/:house_id/delete` | Delete House ✅ |
+| `PUT` | `/:house_id/add-to-fav` | Add House to favs ✅ |
+| `PUT` | `/:house_id/subtract-from-fav` | Subtract House from favs ✅ |
+| `GET` | `/:house_id/get-all-bookings` | Get All Bookings for One House ✅ |
 
 
 ```http
@@ -66,9 +70,9 @@ A brief description of what this project does and who it's for
 
 | Parameter | Type     | Description                |
 | :-------- | :------- | :------------------------- |
-| `GET` | `/` | Get All Subscriptions |
-| `POST` | `/create` | Create Subscription |
-| `DELETE` | `/:subscription_id/delete` | Cancel Subscription |
+| `GET` | `/` | Get All Subscriptions for One User ✅ |
+| `POST` | `/create` | Create Subscription ✅ |
+| `DELETE` | `/:subscription_id/delete` | Cancel Subscription ✅ |
 
 
 ```http
@@ -77,10 +81,10 @@ A brief description of what this project does and who it's for
 
 | Parameter | Type     | Description                |
 | :-------- | :------- | :------------------------- |
-| `GET` | `/` | Get All Bookigns |
-| `POST` | `/create` | Create Booking |
-| `DELETE` | `/:booking_id/delete` | Delete House |
-| `PUT` | `/:booking_id/edit` | Edit House |
+| `GET` | `/:booking_id` | Get One Booking ✅ |
+| `POST` | `/create` | Create Booking ✅ |
+| `DELETE` | `/:booking_id/delete` | Delete Booking ✅ |
+| `PUT` | `/:booking_id/edit` | Edit Booking |
 
 
 
