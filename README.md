@@ -28,9 +28,10 @@ A brief description of what this project does and who it's for
 
 | Parameter | Type     | Description                |
 | :-------- | :------- | :------------------------- |
-| `GET` | `/` | Get All Users |
-| `PUT` | `/:user_id/edit` | Edit User |
-| `DELETE` | `/:user_id/delete` | Delete User |
+| `GET` | `/:user_id` | Get User Details ✅|
+| `PUT` | `/:user_id/edit` | Edit User ✅|
+| `DELETE` | `/:user_id/delete` | Delete User ✅|
+| `GET` | `/:user_id` | Get User's Properties ✅|
 
 ```http
   VILLAGES /api/villages/
@@ -45,6 +46,7 @@ A brief description of what this project does and who it's for
 | `DELETE` | `/:village_id/delete` | Delete Village ✅ |
 | `PUT` | `/:village_id/follow` | Follow Village ✅ |
 | `PUT` | `/:village_id/unfollow` | Unfollow Village ✅ |
+| `GET` | `/:village_id/houses` | Get All Houses for One Village ✅ |
 | `GET` | `/:village_id/get-all-subscriptions` | Get All Subscriptions for One Village ✅ |
 
 
