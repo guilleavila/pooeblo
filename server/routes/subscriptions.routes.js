@@ -1,6 +1,7 @@
 const router = require('express').Router()
 
 const Subscription = require('../models/Subscription.model')
+const House = require('../models/House.model')
 
 // GET - GET USER'S SUBSCRIPTIONS
 router.get('/', (req, res) => {
@@ -17,10 +18,18 @@ router.get('/', (req, res) => {
 // POST --- CREATE SUBSCRIPTION
 router.post('/create', (req, res) => {
 
-    const { coRenter, house, daysLeftToBook } = req.body
+    // el corenter y la house no salen de ahí
+    const { coRenter, house, totalDays } = req.body
+    let totalPrice
 
-    Subscription
-        .create({ coRenter, house, daysLeftToBook })
+    House
+        .findById(house)
+        .select('priceDay')
+        .then(({ priceDay }) => {
+            console.log('ESTE ES EL PRECIO--->', priceDay)
+            totalPrice = priceDay * totalDays
+            return Subscription.create({ coRenter, house, totalDays, totalPrice, daysLeftToBook: totalDays })
+        })
         .then(response => res.json(response))
         .catch(err => res.status(500).json(err))
 })

@@ -1,4 +1,5 @@
-const { Schema, model } = require("mongoose");
+const mongoose = require('mongoose')
+const Schema = mongoose.Schema
 
 const houseSchema = new Schema(
   {
@@ -9,6 +10,9 @@ const houseSchema = new Schema(
     },
     description: {
       type: String
+    },
+    priceDay: {
+      type: Number
     },
     services: {
       type: String
@@ -45,4 +49,7 @@ const houseSchema = new Schema(
   }
 );
 
-module.exports = model("House", houseSchema);
+
+const House = mongoose.model('House', houseSchema)
+House.syncIndexes()
+module.exports = House

@@ -19,7 +19,7 @@ router.get("/", (req, res) => {
 // --- CREATE HOUSE ROUTE 
 router.post("/create", (req, res) => {
 
-    const { name, description, services, roomsDescription, maxGuests, images, availableDaysLeft, lat, lng, village, owner } = req.body
+    const { name, description, priceDay, services, roomsDescription, maxGuests, images, availableDaysLeft, lat, lng, village, owner } = req.body
 
     const location = {
         type: 'Point',
@@ -27,7 +27,7 @@ router.post("/create", (req, res) => {
     }
 
     House
-        .create({ name, description, services, roomsDescription, maxGuests, images, availableDaysLeft, location, village, owner })
+        .create({ name, description, priceDay, services, roomsDescription, maxGuests, images, availableDaysLeft, location, village, owner })
         .then(response => res.json(response))
         .catch(err => res.status(500).json(err))
 })
@@ -49,7 +49,7 @@ router.get("/:house_id", (req, res) => {
 router.put("/:house_id/edit", (req, res) => {
 
     const { house_id } = req.params
-    const { name, description, services, roomsDescription, maxGuests, images, availableDaysLeft, lat, lng } = req.body
+    const { name, description, priceDay, services, roomsDescription, maxGuests, images, availableDaysLeft, lat, lng } = req.body
 
     const location = {
         type: 'Point',
@@ -57,7 +57,7 @@ router.put("/:house_id/edit", (req, res) => {
     }
 
     House
-        .findByIdAndUpdate(house_id, { name, description, services, roomsDescription, maxGuests, images, availableDaysLeft, location })
+        .findByIdAndUpdate(house_id, { name, description, priceDay, services, roomsDescription, maxGuests, images, availableDaysLeft, location })
         .then(response => res.json(response))
         .catch(err => res.status(500).json(err))
 })

@@ -1,4 +1,5 @@
-const { Schema, model } = require("mongoose");
+const mongoose = require('mongoose')
+const Schema = mongoose.Schema
 
 const subscriptionSchema = new Schema(
   {
@@ -10,6 +11,12 @@ const subscriptionSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'House'
     },
+    totalPrice: {
+      type: Number
+    },
+    totalDays: {
+      type: Number
+    },
     daysLeftToBook: {
       type: Number
     }
@@ -19,4 +26,6 @@ const subscriptionSchema = new Schema(
   }
 );
 
-module.exports = model("Subscription", subscriptionSchema);
+const Subscription = mongoose.model('Subscription', subscriptionSchema)
+Subscription.syncIndexes()
+module.exports = Subscription
