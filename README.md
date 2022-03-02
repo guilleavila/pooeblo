@@ -47,7 +47,7 @@ A brief description of what this project does and who it's for
 | `PUT` | `/:village_id/follow` | Follow Village ✅ |
 | `PUT` | `/:village_id/unfollow` | Unfollow Village ✅ |
 | `GET` | `/:village_id/houses` | Get All Houses for One Village ✅ |
-| `GET` | `/:village_id/get-all-subscriptions` | Get All Subscriptions for One Village ✅ |
+| `GET` | `/:village_id/subscriptions` | Get All Subscriptions for One Village ✅ |
 
 
 ```http
