@@ -15,8 +15,6 @@ router.post("/create", (req, res) => {
 
     const totalDays = (exit - entry) / (1000 * 3600 * 24)
 
-    console.log(entry, exit, totalDays)
-
     const promise1 = Booking.create({ subscription, entryDate, exitDate })
     const promise2 = Subscription.findByIdAndUpdate(subscription, { $inc: { daysLeftToBook: -totalDays } }, { new: true })
 
