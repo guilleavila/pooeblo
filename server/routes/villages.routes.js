@@ -101,6 +101,18 @@ router.put('/:village_id/unfollow', (req, res) => {
 })
 
 
+// GET --- GET ALL HOUSES
+router.get('/:village_id/houses', (req, res) => {
+
+    const { village_id } = req.params
+
+    House
+        .find({ village: village_id })
+        .then(response => res.json(response))
+        .catch(err => res.status(500).json(err))
+})
+
+
 // GET --- GET ALL SUBSCRIPTIONS
 router.get('/:village_id/get-all-subscriptions', (req, res) => {
 
