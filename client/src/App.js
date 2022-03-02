@@ -1,10 +1,14 @@
 import './App.css';
+import AppRoutes from './routes/AppRoutes';
+import Navigation from './components/Navigation/Navigation'
 
 function App() {
   return (
-    <div className="App">
-      <h1>TENGO EL CONTROL DE POOEBLO</h1>
-    </div>
+    <>
+      <Navigation />
+      <AppRoutes />
+    </>
+
   );
 }
 

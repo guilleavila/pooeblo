@@ -20,10 +20,8 @@ router.post("/create", (req, res) => {
 
     Promise
         .all([promise1, promise2])
-        .then(response => {
-            console.log(response)
-            res.json(response)
-        })
+        .then(response => res.json(response))
+        .catch(err => res.status(500).json(err))
 })
 
 

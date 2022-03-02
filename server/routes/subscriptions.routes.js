@@ -20,14 +20,12 @@ router.post('/create', (req, res) => {
 
     // el corenter y la house no salen de ahí
     const { coRenter, house, totalDays } = req.body
-    let totalPrice
 
     House
         .findById(house)
         .select('priceDay')
         .then(({ priceDay }) => {
-            console.log('ESTE ES EL PRECIO--->', priceDay)
-            totalPrice = priceDay * totalDays
+            const totalPrice = priceDay * totalDays
             return Subscription.create({ coRenter, house, totalDays, totalPrice, daysLeftToBook: totalDays })
         })
         .then(response => res.json(response))
