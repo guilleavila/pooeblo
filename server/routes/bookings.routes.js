@@ -14,13 +14,10 @@ router.post("/create", (req, res) => {
 
     const totalDays = (exit - entry) / (1000 * 3600 * 24)
 
-    console.log(entry, exit, totalDays)
+    const promises = [Booking.create({ subscription, entryDate, exitDate }), Subscription.findByIdAndUpdate(subscription, { daysLeftToBook: totalDays }, { new: true })]
 
-    const promise1 = Booking.create({ subscription, entryDate, exitDate })
-    const promise2 = Subscription.findByIdAndUpdate(subscription, { daysLeftToBook: totalDays }, { new: true })
+    Promise.all(promises)
 
-    Promise
-        .all([promise1, promise2])
         .then(response => {
             console.log(response)
             res.json(response)
