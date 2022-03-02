@@ -1,5 +1,6 @@
 const router = require('express').Router()
 
+const { Router } = require('express')
 const Booking = require('../models/Booking.model')
 const Subscription = require('../models/Subscription.model')
 
@@ -17,7 +18,7 @@ router.post("/create", (req, res) => {
     console.log(entry, exit, totalDays)
 
     const promise1 = Booking.create({ subscription, entryDate, exitDate })
-    const promise2 = Subscription.findByIdAndUpdate(subscription, { daysLeftToBook: totalDays }, { new: true })
+    const promise2 = Subscription.findByIdAndUpdate(subscription, { $inc: { daysLeftToBook: -totalDays } }, { new: true })
 
     Promise
         .all([promise1, promise2])
@@ -40,6 +41,37 @@ router.get("/:booking_id", (req, res) => {
 })
 
 
+// --- EDIT BOOKING
+router.put('/:booking_id/edit', (req, res) => {
+
+    const { booking_id } = req.params
+
+    const { entryDate, exitDate } = req.body
+
+    const entry = new Date(entryDate)
+    const exit = new Date(exitDate)
+
+    const totalDays = (exit - entry) / (1000 * 3600 * 24)
+
+    Booking
+        .findById(booking_id)
+        .then(foundBooking => {  // guardamos fechas originales
+            const originalEntry = foundBooking.entryDate
+            const originalExit = foundBooking.exitDate
+            const originalTotalDays = (originalExit - originalEntry) / (1000 * 3600 * 24)
+            return Subscription.findByIdAndUpdate(foundBooking.subscription, { $inc: { daysLeftToBook: originalTotalDays } }, { new: true })
+        })
+        .then(() => {
+            return Booking.findByIdAndUpdate(booking_id, { entryDate, exitDate })
+        })
+        .then((updatedBooking) => {
+            return Subscription.findByIdAndUpdate(updatedBooking.subscription, { $inc: { daysLeftToBook: -totalDays } }, { new: true })
+        })
+
+
+
+})
+
 // --- BOOKING DELETE ROUTE
 router.delete("/:booking_id/delete", (req, res) => {
 
@@ -47,6 +79,14 @@ router.delete("/:booking_id/delete", (req, res) => {
 
     Booking
         .findByIdAndDelete(booking_id)
+        .then(deletedBooking => {
+            const entry = deletedBooking.entryDate
+            const exit = deletedBooking.exitDate
+
+            const totalDays = (exit - entry) / (1000 * 3600 * 24)
+
+            return Subscription.findByIdAndUpdate(deletedBooking.subscription, { $inc: { daysLeftToBook: totalDays } }, { new: true })
+        })
         .then(response => res.json(response))
         .catch(err => res.status(500).json(err))
 })
