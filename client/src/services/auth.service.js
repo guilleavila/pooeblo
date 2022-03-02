@@ -11,7 +11,7 @@ class AuthService {
     }
 
     login(credentials) {
-        return this.api.post('/login', credentials)
+        return this.api.post('/user-login', credentials)
     }
 
     verify(token) {

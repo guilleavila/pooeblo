@@ -10,6 +10,7 @@ const User = require("../models/User.model")
 const Village = require('../models/Village.model')
 
 
+
 // --- USER SIGNUP ROUTE
 router.post('/user-signup', (req, res, next) => {
 
@@ -53,55 +54,6 @@ router.post('/user-signup', (req, res, next) => {
         .catch(err => {
             res.status(500).json({ message: 'Internal server error' })
         })
-})
-
-
-// --- USER LOGIN ROUTE
-router.post('/user-login', (req, res, next) => {
-    const { email, password } = req.body
-
-    if (email === '' || password === '') {
-        res.status(400).json({ message: 'Provide email and password' })
-        return
-    }
-
-    User
-        .findOne({ email })
-        .then((foundUser) => {
-
-            if (!foundUser) {
-                res.status(401).json({ message: 'User not found' })
-                return
-            }
-
-            if (bcrypt.compareSync(password, foundUser.password)) {
-
-                const { firstName, lastName, email, phoneNumber, birthDate, profileImg, followedVillages, favHouses, _id } = foundUser
-
-                const payload = { firstName, lastName, email, phoneNumber, birthDate, profileImg, followedVillages, favHouses, _id }
-
-                const authToken = jwt.sign(
-                    payload,
-                    process.env.TOKEN_SECRET,
-                    { algorithm: 'HS256', expiresIn: '6h' }
-                )
-
-                res.status(200).json({ authToken })
-
-            } else {
-                res.status(401).json({ message: 'Unable to authenticate the user' })
-            }
-        })
-        .catch(err => {
-            console.log(err)
-            res.status(500).json({ message: 'Internal Server Error' })
-        })
-})
-
-
-// --- USER ??? VERIFY ROUTE
-router.get('/verify', isAuthenticated, (req, res, next) => {
-    res.status(200).json(req.payload)
 })
 
 
@@ -157,8 +109,9 @@ router.post('/village-signup', (req, res, next) => {
 })
 
 
-// --- VILLAGE LOGIN ROUTE
-router.post('/village-login', (req, res, next) => {
+
+// --- USER & VILLAGE LOGIN ROUTE
+router.post('/user-login', (req, res, next) => {
     const { email, password } = req.body
 
     if (email === '' || password === '') {
@@ -166,31 +119,68 @@ router.post('/village-login', (req, res, next) => {
         return
     }
 
-    Village
-        .findOne({ email })
-        .then((foundVillage) => {
+    const promises = [User.findOne({ email }), Village.findOne({ email })]
 
-            if (!foundVillage) {
-                res.status(401).json({ message: 'Village not found' })
-                return
-            }
+    Promise
+        .all(promises)
+        .then(([foundUser, foundVillage]) => {
 
-            if (bcrypt.compareSync(password, foundVillage.password)) {
+            let isVillage = false
+            let isUser = false
 
-                const { name, lat, lng, email, phoneNumber, CCAA, province, profileImg, description, website, features, _id } = foundVillage
+            if (foundUser === null) {
 
-                const payload = { name, lat, lng, email, phoneNumber, CCAA, province, profileImg, description, website, features, _id }
+                if (!foundVillage) {
+                    res.status(401).json({ message: 'Village not found' })
+                    return
+                }
 
-                const authToken = jwt.sign(
-                    payload,
-                    process.env.TOKEN_SECRET,
-                    { algorithm: 'HS256', expiresIn: '6h' }
-                )
+                if (bcrypt.compareSync(password, foundVillage.password)) {
 
-                res.status(200).json({ authToken })
+                    isVillage = true
 
-            } else {
-                res.status(401).json({ message: 'Unable to authenticate the user' })
+                    const { name, email, _id } = foundVillage
+
+                    const payload = { name, email, isVillage, isUser, _id }
+
+                    const authToken = jwt.sign(
+                        payload,
+                        process.env.TOKEN_SECRET,
+                        { algorithm: 'HS256', expiresIn: '6h' }
+                    )
+
+                    res.status(200).json({ authToken })
+
+                } else {
+                    res.status(401).json({ message: 'Unable to authenticate the user' })
+                }
+            } else if (foundVillage === null) {
+
+                if (!foundUser) {
+                    res.status(401).json({ message: 'User not found' })
+                    return
+                }
+
+                if (bcrypt.compareSync(password, foundUser.password)) {
+
+                    isUser = true
+
+                    const { firstName, lastName, email, _id } = foundUser
+
+                    const payload = { firstName, lastName, email, isVillage, isUser, _id }
+
+                    const authToken = jwt.sign(
+                        payload,
+                        process.env.TOKEN_SECRET,
+                        { algorithm: 'HS256', expiresIn: '6h' }
+                    )
+
+                    res.status(200).json({ authToken })
+
+                } else {
+                    res.status(401).json({ message: 'Unable to authenticate the user' })
+                }
+
             }
         })
         .catch(err => {
@@ -198,6 +188,56 @@ router.post('/village-login', (req, res, next) => {
             res.status(500).json({ message: 'Internal Server Error' })
         })
 })
+
+
+// --- USER VERIFY ROUTE
+router.get('/verify', isAuthenticated, (req, res, next) => {
+    res.status(200).json(req.payload)
+})
+
+
+
+// // --- VILLAGE LOGIN ROUTE
+// router.post('/village-login', (req, res, next) => {
+//     const { email, password } = req.body
+
+//     if (email === '' || password === '') {
+//         res.status(400).json({ message: 'Provide email and password' })
+//         return
+//     }
+
+//     Village
+//         .findOne({ email })
+//         .then((foundVillage) => {
+
+//             if (!foundVillage) {
+//                 res.status(401).json({ message: 'Village not found' })
+//                 return
+//             }
+
+//             if (bcrypt.compareSync(password, foundVillage.password)) {
+
+//                 const { name, lat, lng, email, phoneNumber, CCAA, province, profileImg, description, website, features, _id } = foundVillage
+
+//                 const payload = { name, lat, lng, email, phoneNumber, CCAA, province, profileImg, description, website, features, _id }
+
+//                 const authToken = jwt.sign(
+//                     payload,
+//                     process.env.TOKEN_SECRET,
+//                     { algorithm: 'HS256', expiresIn: '6h' }
+//                 )
+
+//                 res.status(200).json({ authToken })
+
+//             } else {
+//                 res.status(401).json({ message: 'Unable to authenticate the user' })
+//             }
+//         })
+//         .catch(err => {
+//             console.log(err)
+//             res.status(500).json({ message: 'Internal Server Error' })
+//         })
+// })
 
 
 

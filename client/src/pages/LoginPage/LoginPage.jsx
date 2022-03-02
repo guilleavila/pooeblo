@@ -1,4 +1,5 @@
 import { Container, Row, Col } from "react-bootstrap"
+import LoginForm from "../../components/LoginForm/LoginForm"
 
 const LoginPage = () => {
 
@@ -6,7 +7,8 @@ const LoginPage = () => {
         <Container>
             <Row className='justify-content-md-center'>
                 <Col md={4}>
-                    <h1>Soy el login jejejejjej</h1>
+                    <h1>Inicia sesión</h1>
+                    <LoginForm />
                 </Col>
             </Row>
         </Container>
