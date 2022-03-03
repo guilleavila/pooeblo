@@ -42,6 +42,10 @@ class VillagesService {
         return this.api.get(`/${id}/subscriptions`)
     }
 
+    getVillagesByName = input => {
+        return this.api.get(`/search-village/${input}`)
+    }
+
 }
 
 const villagesService = new VillagesService()

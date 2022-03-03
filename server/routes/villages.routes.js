@@ -139,4 +139,26 @@ router.get('/:village_id/subscriptions', (req, res) => {
 })
 
 
+// GET - SEARCH VILLAGE BY NAME
+router.get('/search-village/:input_text', (req, res) => {
+
+    const { input_text } = req.params
+
+    Village
+        .find({ name: { $regex: input_text, $options: 'i' } })
+        .then(response => res.json(response))
+        .catch(err => res.status(500).json)
+})
+
+// GET - SEARCH VILLAGE BY CCAA
+
+// GET - SEARCH VILLAGE BY PROVINCE
+
+// GET - SEARCH COAST VILLAGE
+
+// GET - SEARCH MOUNTAIN VILLAGE
+
+// GET - SEARCH VILLAGE CLOSE TO CITY
+
+
 module.exports = router
