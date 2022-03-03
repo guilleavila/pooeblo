@@ -11,7 +11,7 @@ class VillagesService {
     }
 
     getOneVillage = id => {
-        return this.api.get(`/${id}`)
+        return this.api.get(`findOneVillage/${id}`)
     }
 
     editVillageInfo = (id, villageInfo) => {
@@ -44,6 +44,10 @@ class VillagesService {
 
     getVillagesByName = input => {
         return this.api.get(`/search-village/${input}`)
+    }
+
+    getAllProvinces = () => {
+        return this.api.get(`/provinces`)
     }
 
 }

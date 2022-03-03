@@ -7,38 +7,33 @@ import { Link } from 'react-router-dom'
 
 const VillagesFilter = () => {
 
-    const [filteredVillages, setFilteredVillages] = useState([])
+    const [filteredVillagesByName, setFilteredVillagesByName] = useState([])
+    const [filteredVillagesByProvince, setFilteredVillagesByProvince] = useState([])
 
-    const handleFilter = e => {
+    const handleVillagesByNameFilter = e => {
 
         if (e.target.value === '') {
-            setFilteredVillages([])
+            setFilteredVillagesByName([])
         } else {
             villagesService
                 .getVillagesByName(e.target.value)
                 .then(({ data }) => {
-                    setFilteredVillages(data)
+                    setFilteredVillagesByName(data)
                 })
                 .catch(err => console.log(err))
         }
-
-        // const newFilter = villages.filter(village => {
-        //     return village.name.toLowerCase().includes(e.target.value.toLowerCase())
-        // })
-
-        // e.target.value === '' ? setFilteredVillages([]) : setFilteredVillages(newFilter)
     }
 
     return (
         <div className='villagesFilter'>
 
-            <input type='text' placeholder='busca un pueblo' onChange={handleFilter} />
+            <input type='text' placeholder='busca un pueblo' onChange={handleVillagesByNameFilter} />
 
             {
-                filteredVillages.length != 0 && (
+                filteredVillagesByName.length != 0 && (
                     <div className='villagesResult'>
                         {
-                            filteredVillages.map(village => {
+                            filteredVillagesByName.map(village => {
                                 return <Link key={village._id} to={`/pueblos/${village._id}`}>
                                     <p className='villageItem' key={village._id}>{village.name}</p>
                                 </Link>
@@ -46,6 +41,8 @@ const VillagesFilter = () => {
                         }
                     </div>)
             }
+
+            <input type="text" placeholder='busca por provincia' />
 
         </div>
     )

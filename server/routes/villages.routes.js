@@ -19,7 +19,7 @@ router.get('/', (req, res) => {
 
 // GET --- GET ONE VILLAGE
 
-router.get('/:village_id', (req, res) => {
+router.get('findOneVillage/:village_id', (req, res) => {
 
     const { village_id } = req.params
 
@@ -139,20 +139,42 @@ router.get('/:village_id/subscriptions', (req, res) => {
 })
 
 
-// GET - SEARCH VILLAGE BY NAME
-router.get('/search-village/:input_text', (req, res) => {
+// GET --- SEARCH VILLAGE BY NAME
+router.get('/search-village-by-name/:input_text', (req, res) => {
 
     const { input_text } = req.params
 
     Village
         .find({ name: { $regex: input_text, $options: 'i' } })
         .then(response => res.json(response))
-        .catch(err => res.status(500).json)
+        .catch(err => res.status(500).json(err))
 })
 
-// GET - SEARCH VILLAGE BY CCAA
+
+// GET --- GET ALL PROVINCES
+router.get('/provinces', (req, res) => {
+
+    const provinces = []
+
+    Village
+        .find()
+        .select('province')
+        .then(response => {
+            response.map(elm => provinces.indexOf(elm.province) === -1 ? provinces.push(elm.province) : null)
+            res.json(provinces)
+        })
+        .catch(err => res.status(500).json(err))
+})
+
 
 // GET - SEARCH VILLAGE BY PROVINCE
+router.get('/search-village-by-province/:input-select', (req, res) => {
+
+    const { input_select } = req.params
+
+    Village
+        .find({ province: input_select })
+})
 
 // GET - SEARCH COAST VILLAGE
 
