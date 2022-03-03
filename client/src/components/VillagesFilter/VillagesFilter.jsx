@@ -1,19 +1,35 @@
+import './VillagesFilter.css'
+
 import { useState } from 'react'
 
-const VillagesFilter = ({ showFilteredVillages }) => {
+const VillagesFilter = ({ villages }) => {
 
-    const [searchVillage, setSearchVillage] = useState("")
+    const [filteredVillages, setFilteredVillages] = useState([])
 
-    const handleInput = e => {
-        setSearchVillage(e.target.value)
-        showFilteredVillages(e.target.value)
+    const handleFilter = e => {
+        const newFilter = villages.filter(village => {
+            return village.name.toLowerCase().includes(e.target.value.toLowerCase())
+        })
+
+        e.target.value === '' ? setFilteredVillages([]) : setFilteredVillages(newFilter)
     }
 
     return (
         <div className='villagesFilter'>
-            <form>
-                <input type='search' placeholder='busca un pueblo' onChange={handleInput} />
-            </form>
+
+            <input type='text' placeholder='busca un pueblo' onChange={handleFilter} />
+
+            {
+                filteredVillages.length != 0 && (
+                    <div className='villagesResult'>
+                        {
+                            filteredVillages.map(village => {
+                                return <a className='villageItem' key={village._id} href="/iniciar-sesion"><p>{village.name}</p></a>
+                            })
+                        }
+                    </div>)
+            }
+
         </div>
     )
 }

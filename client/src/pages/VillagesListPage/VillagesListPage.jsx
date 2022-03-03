@@ -8,7 +8,7 @@ import VillagesList from "../../components/VillagesList/VillagesList"
 const VillagesListPage = () => {
 
     const [villages, setVillages] = useState([])
-    const [villagesCopy, setVillagesCopy] = useState([])
+    // const [villagesCopy, setVillagesCopy] = useState([])
 
     useEffect(() => {
         loadVillages()
@@ -19,26 +19,26 @@ const VillagesListPage = () => {
             .getAllVillages()
             .then(({ data }) => {
                 setVillages(data)
-                setVillagesCopy(data)
+                // setVillagesCopy(data)
             })
             .catch(err => console.log(err))
     }
 
-    const filter = str => {
+    // const showFilteredVillages = str => {
 
-        let filteredVillages
+    //     let filteredVillages
 
-        if (str) {
-            filteredVillages = villagesCopy.filter(elm => elm.name.includes(str))
-        } else {
-            filteredVillages = villagesCopy
-        }
-    }
+    //     if (str) {
+    //         filteredVillages = villagesCopy.filter(elm => elm.name.includes(str))
+    //     } else {
+    //         filteredVillages = villagesCopy
+    //     }
+    // }
 
     return (
         <section>
             <h1>SOY LA LISTA DE LOS PUEBLOS</h1>
-            <VillagesFilter filter={filter} />
+            <VillagesFilter villages={villages} />
             <VillagesList villages={villages} />
         </section>
     )
