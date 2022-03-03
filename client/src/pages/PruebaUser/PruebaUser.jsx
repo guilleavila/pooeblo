@@ -3,7 +3,7 @@ import { useContext } from "react"
 
 const PruebaUser = () => {
 
-    const { isLoggedIn, session, logOutUser, isLoading } = useContext(AuthContext)
+    const { session } = useContext(AuthContext)
 
     console.log(session)
 
@@ -17,7 +17,10 @@ const PruebaUser = () => {
                         ?
                         <h1>Bienvenido {session.name}</h1>
                         :
-                        <h1>Bienvenid@ {session.firstName} {session.lastName}</h1>
+                        <>
+                            <h1>Bienvenid@ {session.firstName} {session.lastName}</h1>
+                            <p>{session._id}</p>
+                        </>
 
             }
 

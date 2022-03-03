@@ -22,9 +22,14 @@ const Navigation = () => {
 
                         {
                             isLoggedIn ?
-                                <NavLink to="/iniciar-sesion">
-                                    <Nav.Link as="span" onClick={logOutUser}>Cerrar sesión</Nav.Link>
-                                </NavLink>
+                                <>
+                                    <NavLink to="/iniciar-sesion">
+                                        <Nav.Link as="span" onClick={logOutUser}>Cerrar sesión</Nav.Link>
+                                    </NavLink>
+                                    <NavLink to="/nueva-casa">
+                                        <Nav.Link as="span">Crear casa</Nav.Link>
+                                    </NavLink>
+                                </>
                                 :
                                 <>
                                     <NavLink to="/registro">

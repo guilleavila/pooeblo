@@ -1,8 +1,8 @@
 import { Container, Row, Col } from 'react-bootstrap'
-import SignupForm from '../../components/SignupForm/SignupForm'
+import UserSignupForm from '../../components/UserSignupForm/UserSignupForm'
 import { Link } from 'react-router-dom'
 
-const SignupPage = () => {
+const UserSignupPage = () => {
 
     return (
         <Container>
@@ -10,11 +10,11 @@ const SignupPage = () => {
                 <Col md={4}>
                     <h1>Regístrate</h1>
                     <p>¿Eres un pueblo? <Link to='/registro-pueblo'>Regístrate aquí</Link></p>
-                    <SignupForm />
+                    <UserSignupForm />
                 </Col>
             </Row>
         </Container>
     )
 }
 
-export default SignupPage
+export default UserSignupPage

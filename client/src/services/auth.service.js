@@ -6,7 +6,7 @@ class AuthService {
         this.api = axios.create({ baseURL: `${process.env.REACT_APP_API_URL}/auth` })
     }
 
-    signup(credentials) {
+    userSignup(credentials) {
         return this.api.post('/user-signup', credentials)
     }
 
@@ -15,7 +15,7 @@ class AuthService {
     }
 
     login(credentials) {
-        return this.api.post('/user-login', credentials)
+        return this.api.post('/login', credentials)
     }
 
     verify(token) {
