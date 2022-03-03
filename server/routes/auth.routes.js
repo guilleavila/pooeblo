@@ -111,7 +111,7 @@ router.post('/village-signup', (req, res, next) => {
 
 
 // --- USER & VILLAGE LOGIN ROUTE
-router.post('/user-login', (req, res, next) => {
+router.post('/login', (req, res, next) => {
     const { email, password } = req.body
 
     if (email === '' || password === '') {
