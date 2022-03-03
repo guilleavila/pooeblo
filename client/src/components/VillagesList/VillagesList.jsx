@@ -1,7 +1,7 @@
 import { Row, Col } from 'react-bootstrap'
 import VillageCard from "../../components/VillageCard/VillageCard"
 
-const VillagesList = ({ villages }) => {
+const VillagesResultsList = ({ villages }) => {
 
     return (
         <Row>
@@ -14,4 +14,4 @@ const VillagesList = ({ villages }) => {
     )
 }
 
-export default VillagesList
+export default VillagesResultsList

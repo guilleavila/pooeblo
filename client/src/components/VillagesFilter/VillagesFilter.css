@@ -23,10 +23,10 @@
     margin-left: 20px;
 }
 
-a {
+.villageItem {
     text-decoration: none;
 }
 
-a:hover {
+.villageItem:hover {
     background-color: lightgray;
 }

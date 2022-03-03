@@ -1,22 +1,26 @@
 import { Routes, Route } from 'react-router-dom'
+import HomePage from '../pages/HomePage/HomePage'
+import VillageSignupPage from '../pages/VillageSignupPage/VillageSignupPage'
 import UserSignupPage from '../pages/UserSignupPage/UserSignupPage'
 import LoginPage from '../pages/LoginPage/LoginPage'
-import PruebaUser from '../pages/PruebaUser/PruebaUser'
-import VillagesListPage from '../pages/VillagesListPage/VillagesListPage'
-import VillageSignupPage from '../pages/VillageSignupPage/VillageSignupPage'
+import VillagesResultsListPage from '../pages/VillagesResultsListPage/VillagesResultsListPage'
+import VillageDetailsPage from '../pages/VillageDetailsPage/VillageDetailsPage'
 import NewHousePage from '../pages/NewHousePage/NewHousePage'
+
 
 const AppRoutes = () => {
 
     return (
         <Routes>
+
+            <Route path='/' element={<HomePage />} />
             <Route path='/registro' element={<UserSignupPage />} />
             <Route path='/registro-pueblo' element={<VillageSignupPage />} />
             <Route path='/iniciar-sesion' element={<LoginPage />} />
-            <Route path='/' element={<PruebaUser />} />
+            <Route path='/pueblos' element={<VillagesResultsListPage />} />
+            <Route path="/pueblos/:pueblo_id" element={<VillageDetailsPage />} />
             <Route path='/nueva-casa' element={<NewHousePage />} />
 
-            <Route path='/pueblos' element={<VillagesListPage />} />
         </Routes>
     )
 }

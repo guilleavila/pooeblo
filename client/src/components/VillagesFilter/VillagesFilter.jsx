@@ -1,17 +1,32 @@
 import './VillagesFilter.css'
 
-import { useState } from 'react'
+import villagesService from '../../services/villages.service'
 
-const VillagesFilter = ({ villages }) => {
+import { useState } from 'react'
+import { Link } from 'react-router-dom'
+
+const VillagesFilter = () => {
 
     const [filteredVillages, setFilteredVillages] = useState([])
 
     const handleFilter = e => {
-        const newFilter = villages.filter(village => {
-            return village.name.toLowerCase().includes(e.target.value.toLowerCase())
-        })
 
-        e.target.value === '' ? setFilteredVillages([]) : setFilteredVillages(newFilter)
+        if (e.target.value === '') {
+            setFilteredVillages([])
+        } else {
+            villagesService
+                .getVillagesByName(e.target.value)
+                .then(({ data }) => {
+                    setFilteredVillages(data)
+                })
+                .catch(err => console.log(err))
+        }
+
+        // const newFilter = villages.filter(village => {
+        //     return village.name.toLowerCase().includes(e.target.value.toLowerCase())
+        // })
+
+        // e.target.value === '' ? setFilteredVillages([]) : setFilteredVillages(newFilter)
     }
 
     return (
@@ -24,7 +39,9 @@ const VillagesFilter = ({ villages }) => {
                     <div className='villagesResult'>
                         {
                             filteredVillages.map(village => {
-                                return <a className='villageItem' key={village._id} href="/iniciar-sesion"><p>{village.name}</p></a>
+                                return <Link key={village._id} to={`/pueblos/${village._id}`}>
+                                    <p className='villageItem' key={village._id}>{village.name}</p>
+                                </Link>
                             })
                         }
                     </div>)

@@ -18,9 +18,8 @@ A brief description of what this project does and who it's for
 | :-------- | :------- | :------------------------- |
 | `POST` | `/user-signup` | User Signup ✅ |
 | `POST` | `/village-signup` | Village Signup ✅ |
-| `POST` | `/user-login` | User Login ✅ |
-| `POST` | `/village-login` | Village Login ✅ |
-| `POST` | `/verify` | ??? |
+| `POST` | `/login` | Login ✅ |
+| `POST` | `/verify` | ✅  |
 
 ```http
   USERS /api/users
@@ -127,5 +126,5 @@ A brief description of what this project does and who it's for
 
 ## Authors
 
-- [Guillermo Ávila & Inés García](https://www.github.com/octokatherine)
+- [Guillermo Ávila & Inés García]
 

@@ -3,12 +3,11 @@ import { useState, useEffect } from "react"
 import villagesService from "../../services/villages.service"
 
 import VillagesFilter from "../../components/VillagesFilter/VillagesFilter"
-import VillagesList from "../../components/VillagesList/VillagesList"
+import VillagesResultsList from "../../components/VillagesList/VillagesList"
 
-const VillagesListPage = () => {
+const VillagesResultsListPage = () => {
 
     const [villages, setVillages] = useState([])
-    // const [villagesCopy, setVillagesCopy] = useState([])
 
     useEffect(() => {
         loadVillages()
@@ -19,29 +18,17 @@ const VillagesListPage = () => {
             .getAllVillages()
             .then(({ data }) => {
                 setVillages(data)
-                // setVillagesCopy(data)
             })
             .catch(err => console.log(err))
     }
 
-    // const showFilteredVillages = str => {
-
-    //     let filteredVillages
-
-    //     if (str) {
-    //         filteredVillages = villagesCopy.filter(elm => elm.name.includes(str))
-    //     } else {
-    //         filteredVillages = villagesCopy
-    //     }
-    // }
-
     return (
         <section>
-            <h1>SOY LA LISTA DE LOS PUEBLOS</h1>
+            <h1>SOY LA LISTA DE LOS RESULTADOS DE LOS PUEBLOS</h1>
             <VillagesFilter villages={villages} />
-            <VillagesList villages={villages} />
+            <VillagesResultsList villages={villages} />
         </section>
     )
 }
 
-export default VillagesListPage
+export default VillagesResultsListPage
