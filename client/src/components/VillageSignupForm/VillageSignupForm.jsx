@@ -3,15 +3,17 @@ import { Form, Button } from 'react-bootstrap'
 import authService from '../../services/auth.service'
 import { useNavigate } from 'react-router-dom'
 
-const SignupForm = () => {
+const VillageSignupForm = () => {
 
     const [signupForm, setSignupForm] = useState({
-        firstName: '',
-        lastName: '',
+        name: '',
+        lat: '',
+        lng: '',
         email: '',
         password: '',
         phoneNumber: '',
-        birthDate: ''
+        CCAA: '',
+        province: '',
     })
 
     const navigate = useNavigate()
@@ -28,7 +30,7 @@ const SignupForm = () => {
         e.preventDefault()
 
         authService
-            .signup(signupForm)
+            .villageSignup(signupForm)
             .then(({ data }) => {
                 navigate('/iniciar-sesion')
             })
@@ -41,12 +43,17 @@ const SignupForm = () => {
 
             <Form.Group className="mb-3">
                 <Form.Label>Nombre</Form.Label>
-                <Form.Control type="text" name="firstName" value={signupForm.firstName} onChange={handleInputChange} />
+                <Form.Control type="text" name="name" value={signupForm.name} onChange={handleInputChange} />
             </Form.Group>
 
             <Form.Group className="mb-3">
-                <Form.Label>Apellidos</Form.Label>
-                <Form.Control type="text" name="lastName" value={signupForm.lastName} onChange={handleInputChange} />
+                <Form.Label>Lat</Form.Label>
+                <Form.Control type="number" name="lat" value={signupForm.lat} onChange={handleInputChange} />
+            </Form.Group>
+
+            <Form.Group className="mb-3">
+                <Form.Label>Lng</Form.Label>
+                <Form.Control type="number" name="lng" value={signupForm.lng} onChange={handleInputChange} />
             </Form.Group>
 
             <Form.Group className="mb-3">
@@ -65,8 +72,13 @@ const SignupForm = () => {
             </Form.Group>
 
             <Form.Group className="mb-3">
-                <Form.Label>Fecha de nacimiento</Form.Label>
-                <Form.Control type="date" name="birthDate" value={signupForm.birthDate} onChange={handleInputChange} />
+                <Form.Label>Comunidad Autónoma</Form.Label>
+                <Form.Control type="text" name="CCAA" value={signupForm.CCAA} onChange={handleInputChange} />
+            </Form.Group>
+
+            <Form.Group className="mb-3">
+                <Form.Label>Provincia</Form.Label>
+                <Form.Control type="text" name="province" value={signupForm.province} onChange={handleInputChange} />
             </Form.Group>
 
             <Button variant="dark" type="submit" style={{ width: '100%' }}>Registrar</Button>
@@ -76,4 +88,4 @@ const SignupForm = () => {
     )
 }
 
-export default SignupForm
+export default VillageSignupForm
