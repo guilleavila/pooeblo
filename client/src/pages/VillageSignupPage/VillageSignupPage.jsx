@@ -1,20 +1,20 @@
 import { Container, Row, Col } from 'react-bootstrap'
-import SignupForm from '../../components/SignupForm/SignupForm'
+import VillageSignupForm from '../../components/VillageSignupForm/VillageSignupForm'
 import { Link } from 'react-router-dom'
 
-const SignupPage = () => {
+const VillageSignupPage = () => {
 
     return (
         <Container>
             <Row className="justify-content-md-center">
                 <Col md={4}>
                     <h1>Regístrate</h1>
-                    <p>¿Eres un pueblo? <Link to='/registro-pueblo'>Regístrate aquí</Link></p>
-                    <SignupForm />
+                    <p>¿Eres un usuario? <Link to='/registro'>Regístrate aquí</Link></p>
+                    <VillageSignupForm />
                 </Col>
             </Row>
         </Container>
     )
 }
 
-export default SignupPage
+export default VillageSignupPage
