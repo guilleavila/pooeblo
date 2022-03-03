@@ -6,6 +6,7 @@ import LoginPage from '../pages/LoginPage/LoginPage'
 import VillagesResultsListPage from '../pages/VillagesResultsListPage/VillagesResultsListPage'
 import VillageDetailsPage from '../pages/VillageDetailsPage/VillageDetailsPage'
 import NewHousePage from '../pages/NewHousePage/NewHousePage'
+import UserProfilePage from '../pages/UserProfilePage/UserProfilePage'
 
 
 const AppRoutes = () => {
@@ -19,6 +20,7 @@ const AppRoutes = () => {
             <Route path='/iniciar-sesion' element={<LoginPage />} />
             <Route path='/pueblos' element={<VillagesResultsListPage />} />
             <Route path="/pueblos/:pueblo_id" element={<VillageDetailsPage />} />
+            <Route path="/perfil" element={<UserProfilePage />} />
             <Route path='/nueva-casa' element={<NewHousePage />} />
 
         </Routes>

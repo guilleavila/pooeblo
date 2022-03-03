@@ -10,7 +10,7 @@ import uploadService from "../../services/upload.service"
 
 const NewHouseForm = () => {
 
-    const { session } = useContext(AuthContext)
+    const { user } = useContext(AuthContext)
 
 
     const [houseState, setHouseState] = useState({
@@ -26,15 +26,15 @@ const NewHouseForm = () => {
         lat: 0,
         lng: 0,
         village: '',
-        owner: session?._id
+        owner: user?._id
     })
 
     useEffect(() => {
         setHouseState({
             ...houseState,
-            owner: session?._id
+            owner: user?._id
         })
-    }, [session])
+    }, [user])
 
     const navigate = useNavigate()
 
