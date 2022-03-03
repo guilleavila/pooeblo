@@ -11,6 +11,8 @@ router.get('/:user_id', (req, res) => {
 
     User
         .findById(user_id)
+        .populate('followedVillages')
+        .populate('favHouses')
         .then(response => res.json(response))
         .catch(err => res.status(500).json(err))
 })

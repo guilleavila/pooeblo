@@ -3,23 +3,23 @@ import { useContext } from "react"
 
 const PruebaUser = () => {
 
-    const { session } = useContext(AuthContext)
+    const { user } = useContext(AuthContext)
 
-    console.log(session)
+    console.log(user)
 
     return (
         <>
             {
-                !session ? <h1>Logeate zorra</h1> :
+                !user ? <h1>Logeate zorra</h1> :
 
 
-                    session.isVillage
+                    user.isVillage
                         ?
-                        <h1>Bienvenido {session.name}</h1>
+                        <h1>Bienvenido {user.name}</h1>
                         :
                         <>
-                            <h1>Bienvenid@ {session.firstName} {session.lastName}</h1>
-                            <p>{session._id}</p>
+                            <h1>Bienvenid@ {user.firstName} {user.lastName}</h1>
+                            <p>{user._id}</p>
                         </>
 
             }
