@@ -2,8 +2,25 @@ import { useState } from 'react'
 import { Form, Button } from 'react-bootstrap'
 import authService from '../../services/auth.service'
 import { useNavigate } from 'react-router-dom'
+import GooglePlacesAutocomplete from 'react-google-places-autocomplete'
+import { geocodeByAddress, getLatLng } from 'react-google-places-autocomplete';
 
 const VillageSignupForm = ({ updateState }) => {
+
+    const [value, setValue] = useState(null);
+
+    const [latitude, setLatitude] = useState()
+    const [longitude, setLongitude] = useState()
+
+    geocodeByAddress(value?.value.description)
+        .then(results => {
+            console.log('SOY EL RESULT', results)
+            return getLatLng(results[0])
+        })
+        .then((response) => {
+            setLatitude(response.lat)
+            setLongitude(response.lng)
+        });
 
     const [signupForm, setSignupForm] = useState({
         name: '',
@@ -23,7 +40,9 @@ const VillageSignupForm = ({ updateState }) => {
         const { name, value } = e.target
         setSignupForm({
             ...signupForm,
-            [name]: value
+            [name]: value,
+            lat: latitude,
+            lng: longitude
         })
     }
 
@@ -31,13 +50,16 @@ const VillageSignupForm = ({ updateState }) => {
         e.preventDefault()
 
         authService
-            .villageSignup(signupForm)
+            .villageSignup(signupForm, latitude, longitude)
             .then(({ data }) => {
                 updateState()
                 navigate(`/caracteristicas/${data.village._id}`)
             })
             .catch(err => console.log(err))
     }
+
+
+    console.log('SOY EL VALUE', value)
 
     return (
 
@@ -49,13 +71,20 @@ const VillageSignupForm = ({ updateState }) => {
             </Form.Group>
 
             <Form.Group className="mb-3">
+                <Form.Label>Prueba</Form.Label>
+                <GooglePlacesAutocomplete
+                    apiKey="REACT_APP_API_KEY" selectProps={{ value, onChange: setValue }}
+                />
+            </Form.Group>
+
+            <Form.Group className="mb-3">
                 <Form.Label>Lat</Form.Label>
-                <Form.Control type="number" name="lat" value={signupForm.lat} onChange={handleInputChange} />
+                <Form.Control type="number" name="lat" value={latitude} onChange={handleInputChange} />
             </Form.Group>
 
             <Form.Group className="mb-3">
                 <Form.Label>Lng</Form.Label>
-                <Form.Control type="number" name="lng" value={signupForm.lng} onChange={handleInputChange} />
+                <Form.Control type="number" name="lng" value={longitude} onChange={handleInputChange} />
             </Form.Group>
 
             <Form.Group className="mb-3">

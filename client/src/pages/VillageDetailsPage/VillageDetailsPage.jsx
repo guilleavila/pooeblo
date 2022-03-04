@@ -42,7 +42,7 @@ const VillageDetailsPage = () => {
                 console.log(data)
                 console.log(data.followedVillages)
 
-                data?.followedVillages.forEach(elm => {
+                data?.followedVillages?.map(elm => {
                     if (elm.name === villageDetails.name) {
                         setIsFollowing(true)
                         setBtnState('Dejar de seguir')
