@@ -1,12 +1,17 @@
 import { Card } from 'react-bootstrap'
+import { Link } from 'react-router-dom'
 
-const VillageCard = ({ name }) => {
+const VillageCard = ({ name, province, CCAA, profileImg, _id }) => {
 
     return (
-        <Card className='villageCard'>
-            <Card.Body>
-                <Card.Title>SOY LA CARTA DE {name}</Card.Title>
-            </Card.Body>
+        <Card className='villageCard' style={{ width: '20rem' }}>
+            <Link to={`/pueblos/${_id}`}>
+                <Card.Img variant="top" src={profileImg} />
+                <Card.Body>
+                    <Card.Title>{name}</Card.Title>
+                    <Card.Text>{CCAA} {province}</Card.Text>
+                </Card.Body>
+            </Link>
         </Card>
     )
 }

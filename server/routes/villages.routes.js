@@ -64,7 +64,6 @@ router.put('/:village_id/edit-features', (req, res) => {
         .findByIdAndUpdate(village_id, { features: { distanceToCity, residents, averageRentingPrice, averagePurchasePrice, healthService, sportsFacilities, isCoastalVillage, isMountainVillage, otherServices } }, { new: true })
         .then(response => res.json(response))
         .catch(err => {
-            console.log(err)
             res.status(500).json(err)
         })
 })
@@ -85,9 +84,8 @@ router.delete('/:village_id/delete', (req, res) => {
 
 
 // PUT --- FOLLOW VILLAGE
-router.put('/:village_id/follow', (req, res) => {
-    const { village_id } = req.params
-    const { user_id } = req.body
+router.put('/:village_id/follow/:user_id', (req, res) => {
+    const { village_id, user_id } = req.params
 
     User
         .findByIdAndUpdate(user_id, { $addToSet: { followedVillages: village_id } })
@@ -97,9 +95,8 @@ router.put('/:village_id/follow', (req, res) => {
 
 
 // PUT --- UNFOLLOW VILLAGE
-router.put('/:village_id/unfollow', (req, res) => {
-    const { village_id } = req.params
-    const { user_id } = req.body
+router.put('/:village_id/unfollow/:user_id', (req, res) => {
+    const { village_id, user_id } = req.params
 
     User
         .findByIdAndUpdate(user_id, { $pull: { followedVillages: village_id } })

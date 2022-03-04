@@ -2,6 +2,7 @@ import { useContext } from "react"
 import { useState, useEffect } from "react"
 import { AuthContext } from "../../context/auth.context"
 import userService from "../../services/user.service"
+import VillageCard from "../VillageCard/VillageCard"
 
 
 const MyFollowedVillages = () => {
@@ -22,7 +23,6 @@ const MyFollowedVillages = () => {
             .getUserDetails(user?._id)
             .then(({ data }) => {
                 setMyFollowedVillages(data.followedVillages)
-                console.log(data)
                 setIsLoaded(true)
             })
             .catch(err => console.log(err))
@@ -32,7 +32,7 @@ const MyFollowedVillages = () => {
         <>
             {
                 isLoaded && myFollowedVillages.map(eachVillage => {
-                    return <p key={eachVillage._id}>Vengo sin props -- {eachVillage.name}</p>
+                    return <VillageCard key={eachVillage._id} {...eachVillage} />
                 })
             }
             <hr />

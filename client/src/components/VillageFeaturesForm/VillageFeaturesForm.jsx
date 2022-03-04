@@ -7,9 +7,9 @@ import { useNavigate, useParams } from "react-router-dom"
 const VillageFeaturesForm = () => {
 
     const [featuresForm, setFeaturesForm] = useState({
-        distanceToCity: 0,
-        residents: 0,
-        averagePurchasePrice: 0,
+        distanceToCity: '',
+        residents: '',
+        averagePurchasePrice: '',
         healthService: false,
         sportsFacilities: false,
         isCoastalVillage: false,
@@ -52,7 +52,7 @@ const VillageFeaturesForm = () => {
 
             <Form.Group className="mb-3">
                 <Form.Label>Distancia a la ciudad</Form.Label>
-                <Form.Control type="number" name="distanceToCity" value={featuresForm.distanceToCity} onChange={handleInputChange} />
+                <Form.Control type="number" name="distanceToCity" value={featuresForm.distanceToCity} onChange={handleInputChange} placeholder="Distancia en km" />
             </Form.Group>
 
             <Form.Group className="mb-3">

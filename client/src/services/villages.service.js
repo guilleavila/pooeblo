@@ -26,12 +26,12 @@ class VillagesService {
         return this.api.delete(`/${id}/delete`)
     }
 
-    followVillage = id => {
-        return this.api.put(`/${id}/follow`)
+    followVillage = (village_id, user_id) => {
+        return this.api.put(`/${village_id}/follow/${user_id}`)
     }
 
-    unfollowVillage = id => {
-        return this.api.put(`/${id}/unfollow`)
+    unfollowVillage = (village_id, user_id) => {
+        return this.api.put(`/${village_id}/unfollow/${user_id}`)
     }
 
     getAllHousesOfOneVillage = id => {

@@ -34,7 +34,6 @@ const VillageSignupForm = ({ updateState }) => {
             .villageSignup(signupForm)
             .then(({ data }) => {
                 updateState()
-                console.log(data, data.village._id)
                 navigate(`/caracteristicas/${data.village._id}`)
             })
             .catch(err => console.log(err))

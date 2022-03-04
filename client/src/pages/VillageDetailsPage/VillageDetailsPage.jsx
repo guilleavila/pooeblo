@@ -1,13 +1,27 @@
-import { Container, Row, Col } from "react-bootstrap"
+import { Container, Row, Col, Button } from "react-bootstrap"
 import { useState, useEffect } from "react"
-import { useParams } from "react-router-dom"
-
+import { useParams, Link } from "react-router-dom"
 import villagesService from "../../services/villages.service"
+import { useContext } from "react"
+import { AuthContext } from "../../context/auth.context"
+import userService from "../../services/user.service"
+import FollowBtn from "../../components/FollowBtn/FollowBtn"
+
+// Primero, buscar los pueblos a los que sigue un usuario
+//Si ya sigue a este pueblo, que el estado inicial sea dejar de SVGFEGaussianBlurElement
+// Si no, que sea seguir con una variable que le pasamos al estado como estado inicial
 
 const VillageDetailsPage = () => {
 
     const [villageDetails, setVillageDetails] = useState({})
+
+    const [isFollowing, setIsFollowing] = useState()
+    const [btnState, setBtnState] = useState('Cargando...')
+
     const { pueblo_id } = useParams()
+    const { user } = useContext(AuthContext)
+
+
 
     useEffect(() => {
         villagesService
@@ -16,12 +30,61 @@ const VillageDetailsPage = () => {
             .catch(err => console.log(err))
     }, [])
 
+    useEffect(() => {
+        villageDetails.name && checkIfFollowed()
+    }, [user, villageDetails])
+
+    const checkIfFollowed = () => {
+        userService
+            .getUserDetails(user?._id)
+            .then(({ data }) => {
+
+                console.log(data)
+                console.log(data.followedVillages)
+
+                data?.followedVillages.forEach(elm => {
+                    if (elm.name === villageDetails.name) {
+                        setIsFollowing(true)
+                        setBtnState('Dejar de seguir')
+                    } else {
+                        setIsFollowing(false)
+                        setBtnState('Seguir pueblo')
+                    }
+                })
+            })
+    }
+
+
+
+
+    const handleFollowBtn = () => {
+
+        if (!isFollowing) {
+            villagesService
+                .followVillage(pueblo_id, user?._id)
+                .then(() => {
+                    setIsFollowing(true)
+                    setBtnState('Dejar de seguir')
+                })
+                .catch(err => console.log(err))
+        } else if (isFollowing) {
+            villagesService
+                .unfollowVillage(pueblo_id, user?._id)
+                .then(() => {
+                    setIsFollowing(false)
+                    setBtnState('Seguir pueblo')
+                })
+                .catch(err => console.log(err))
+        }
+    }
+
     return (
         <section>
 
             <Container>
                 <h1>Detalles de {villageDetails.name}</h1>
                 <hr />
+                <FollowBtn btnState={btnState} handleFollowBtn={handleFollowBtn} />
                 <Row>
                     <Col md={{ span: 4, offset: 1 }}>
                         <h3>CCAA</h3>
@@ -29,12 +92,9 @@ const VillageDetailsPage = () => {
                         <h3>Provincia</h3>
                         <p>{villageDetails.province}</p>
                     </Col>
-                    <Col md={6}>
-                        {/* <img style={{ width: '100%' }} src={coasterDetails.imageUrl} alt={coasterDetails.title} /> */}
-                    </Col>
-                    {/* <Link to="/galeria">
-                        <Button variant="dark">Volver</Button>
-                    </Link> */}
+
+                    {/* <Col md={{ span: 4, offset: 1 }}> */}
+                    {/* </Col> */}
                 </Row>
 
             </Container>

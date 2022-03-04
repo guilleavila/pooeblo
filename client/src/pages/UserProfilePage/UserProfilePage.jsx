@@ -30,7 +30,6 @@ const UserProfilePage = () => {
             .then(({ data }) => {
                 setUserDetails(data)
                 setIsLoaded(true)
-                console.log(userDetails)
             })
             .catch(err => console.log(err))
     }
