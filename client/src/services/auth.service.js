@@ -10,8 +10,8 @@ class AuthService {
         return this.api.post('/user-signup', credentials)
     }
 
-    villageSignup(credentials) {
-        return this.api.post('/village-signup', credentials)
+    villageSignup(credentials, latitude, longitude) {
+        return this.api.post('/village-signup', credentials, latitude, longitude)
     }
 
     login(credentials) {
