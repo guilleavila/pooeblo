@@ -18,7 +18,7 @@ const AppRoutes = () => {
             <Route path='/registro' element={<UserSignupPage />} />
             <Route path='/registro-pueblo' element={<VillageSignupPage />} />
             <Route path='/iniciar-sesion' element={<LoginPage />} />
-            <Route path='/pueblos' element={<VillagesResultsListPage />} />
+            <Route path='/pueblos/resultados/:province' element={<VillagesResultsListPage />} />
             <Route path="/pueblos/:pueblo_id" element={<VillageDetailsPage />} />
             <Route path="/perfil" element={<UserProfilePage />} />
             <Route path='/nueva-casa' element={<NewHousePage />} />

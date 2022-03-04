@@ -1,12 +1,14 @@
 import { Row, Col } from 'react-bootstrap'
-import VillageCard from "../../components/VillageCard/VillageCard"
+import VillageCard from "../VillageCard/VillageCard"
 
-const VillagesResultsList = ({ villages }) => {
+const VillagesResultsList = ({ results }) => {
+
+    console.log(results)
 
     return (
         <Row>
             {
-                villages.map(village => {
+                results?.map(village => {
                     return <Col md={4} key={village._id} > <VillageCard {...village} /> </Col>
                 })
             }
