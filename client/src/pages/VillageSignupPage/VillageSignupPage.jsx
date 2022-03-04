@@ -2,8 +2,15 @@ import { Container, Row, Col } from 'react-bootstrap'
 import VillageSignupForm from '../../components/VillageSignupForm/VillageSignupForm'
 import { Link } from 'react-router-dom'
 import VillageFeaturesForm from '../../components/VillageFeaturesForm/VillageFeaturesForm'
+import { useState } from 'react'
 
 const VillageSignupPage = () => {
+
+    const [step, setStep] = useState(1)
+
+    const updateState = () => {
+        setStep(2)
+    }
 
     return (
         <Container>
@@ -11,8 +18,8 @@ const VillageSignupPage = () => {
                 <Col md={4}>
                     <h1>Regístrate</h1>
                     <p>¿Eres un usuario? <Link to='/registro'>Regístrate aquí</Link></p>
-                    <VillageSignupForm />
-                    <VillageFeaturesForm />
+                    {step === 1 && <VillageSignupForm updateState={updateState} />}
+                    {step === 2 && <VillageFeaturesForm />}
                 </Col>
             </Row>
         </Container>

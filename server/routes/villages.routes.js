@@ -54,12 +54,19 @@ router.put('/:village_id/edit-info', (req, res) => {
 router.put('/:village_id/edit-features', (req, res) => {
 
     const { village_id } = req.params
-    const { distanceToCity, residents, averageRentingPrice, averagePurchasePrice, healthService, sportsFacilities, otherServices } = req.body
+    let { distanceToCity, residents, averageRentingPrice, averagePurchasePrice, healthService, sportsFacilities, isCoastalVillage, isMountainVillage, otherServices } = req.body
+
+    healthService === 'on' ? healthService = true : healthService = false
+    sportsFacilities === 'on' ? sportsFacilities = true : sportsFacilities = false
+
 
     Village
-        .findByIdAndUpdate(village_id, { features: { distanceToCity, residents, averageRentingPrice, averagePurchasePrice, healthService, sportsFacilities, otherServices } }, { new: true })
+        .findByIdAndUpdate(village_id, { features: { distanceToCity, residents, averageRentingPrice, averagePurchasePrice, healthService, sportsFacilities, isCoastalVillage, isMountainVillage, otherServices } }, { new: true })
         .then(response => res.json(response))
-        .catch(err => res.status(500).json(err))
+        .catch(err => {
+            console.log(err)
+            res.status(500).json(err)
+        })
 })
 
 

@@ -7,6 +7,7 @@ import VillagesResultsListPage from '../pages/VillagesResultsListPage/VillagesRe
 import VillageDetailsPage from '../pages/VillageDetailsPage/VillageDetailsPage'
 import NewHousePage from '../pages/NewHousePage/NewHousePage'
 import UserProfilePage from '../pages/UserProfilePage/UserProfilePage'
+import VillageFeaturesForm from '../components/VillageFeaturesForm/VillageFeaturesForm'
 
 
 const AppRoutes = () => {
@@ -17,6 +18,8 @@ const AppRoutes = () => {
             <Route path='/' element={<HomePage />} />
             <Route path='/registro' element={<UserSignupPage />} />
             <Route path='/registro-pueblo' element={<VillageSignupPage />} />
+            <Route path='/caracteristicas/:pueblo_id' element={<VillageFeaturesForm />} />
+
             <Route path='/iniciar-sesion' element={<LoginPage />} />
             <Route path='/pueblos/resultados/:province' element={<VillagesResultsListPage />} />
             <Route path="/pueblos/:pueblo_id" element={<VillageDetailsPage />} />

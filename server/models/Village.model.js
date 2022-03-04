@@ -1,4 +1,5 @@
-const { Schema, model } = require("mongoose");
+const mongoose = require('mongoose')
+const Schema = mongoose.Schema
 
 const villageSchema = new Schema(
   {
@@ -48,13 +49,13 @@ const villageSchema = new Schema(
       },
       coordinates: [Number]
     },
-    isCoastalVillage: {
-      type: Boolean
-    },
-    isMountainVillage: {
-      type: Boolean
-    },
     features: {
+      isCoastalVillage: {
+        type: Boolean
+      },
+      isMountainVillage: {
+        type: Boolean
+      },
       distanceToCity: {
         type: Number,
         default: 0
@@ -89,4 +90,6 @@ const villageSchema = new Schema(
   }
 );
 
-module.exports = model("Village", villageSchema);
+const Village = mongoose.model('Village', villageSchema)
+Village.syncIndexes()
+module.exports = Village

@@ -3,7 +3,7 @@ import { Form, Button } from 'react-bootstrap'
 import authService from '../../services/auth.service'
 import { useNavigate } from 'react-router-dom'
 
-const VillageSignupForm = () => {
+const VillageSignupForm = ({ updateState }) => {
 
     const [signupForm, setSignupForm] = useState({
         name: '',
@@ -15,6 +15,7 @@ const VillageSignupForm = () => {
         CCAA: '',
         province: '',
     })
+
 
     const navigate = useNavigate()
 
@@ -32,7 +33,9 @@ const VillageSignupForm = () => {
         authService
             .villageSignup(signupForm)
             .then(({ data }) => {
-                navigate('/iniciar-sesion')
+                updateState()
+                console.log(data, data.village._id)
+                navigate(`/caracteristicas/${data.village._id}`)
             })
             .catch(err => console.log(err))
     }
@@ -81,7 +84,7 @@ const VillageSignupForm = () => {
                 <Form.Control type="text" name="province" value={signupForm.province} onChange={handleInputChange} />
             </Form.Group>
 
-            <Button variant="dark" type="submit" style={{ width: '100%' }}>Registrar</Button>
+            <Button variant="dark" type="submit" style={{ width: '100%' }}>Siguiente</Button>
 
         </Form>
 
