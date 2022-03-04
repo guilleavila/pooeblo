@@ -162,7 +162,7 @@ router.get('/search-village-by-name/:input_text', (req, res) => {
 // router.get('/provinces/:input_text', (req, res) => {
 
 //     const provinces = []
-//     const { input_text } = req.params // tengo que hacer un filter aquí para que me de las provincias según escribo?
+//     const { input_text } = req.params 
 
 //     Village
 //         .find()
@@ -210,13 +210,26 @@ router.get('/search-villages-by-province/:input_select', (req, res) => {
     Village
         .find({ province: { $regex: input_select, $options: 'i' } })
         .then(response => res.json(response))
-        .catch(err => console.log(err))
+        .catch(err => res.status(500).json(err))
 })
 
 // GET - SEARCH COAST VILLAGE
+router.get('/search-villages-in-the-coast/', (req, res) => {
 
+    Village
+        .find({ isCoastalVillage: true })
+        .then(response => res.json(response))
+        .catch(err => res.status(500).json(err))
+})
 
 // GET - SEARCH MOUNTAIN VILLAGE
+router.get('/search-villages-in-the-mountain/', (req, res) => {
+
+    Village
+        .find({ isMountainVillage: true })
+        .then(response => res.json(response))
+        .catch(err => console.log(err))
+})
 
 // GET - SEARCH VILLAGE CLOSE TO CITY
 
