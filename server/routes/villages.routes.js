@@ -211,19 +211,19 @@ router.get('/search-villages-by-province/:input_select', (req, res) => {
 })
 
 // GET - SEARCH COAST VILLAGE
-router.get('/search-villages-in-the-coast/', (req, res) => {
+router.get('/search-villages-in-the-coast', (req, res) => {
 
     Village
-        .find({ isCoastalVillage: true })
+        .find({ 'features.isCoastalVillage': true })
         .then(response => res.json(response))
         .catch(err => res.status(500).json(err))
 })
 
 // GET - SEARCH MOUNTAIN VILLAGE
-router.get('/search-villages-in-the-mountain/', (req, res) => {
+router.get('/search-villages-in-the-mountain', (req, res) => {
 
     Village
-        .find({ isMountainVillage: true })
+        .find({ 'features.isMountainVillage': true })
         .then(response => res.json(response))
         .catch(err => console.log(err))
 })

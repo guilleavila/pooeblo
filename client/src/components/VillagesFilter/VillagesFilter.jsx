@@ -4,6 +4,7 @@ import villagesService from '../../services/villages.service'
 
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { Button } from 'react-bootstrap'
 
 const VillagesFilter = () => {
 
@@ -68,6 +69,14 @@ const VillagesFilter = () => {
                         }
                     </div>)
             }
+
+            <Link to={`/pueblos/resultados/pueblos-de-costa`}>
+                <Button>PUEBLOS DE PLAYA</Button>
+            </Link>
+
+            <Link to={`/pueblos/resultados/pueblos-de-sierra`}>
+                <Button>PUEBLOS DE MONTAÑA</Button>
+            </Link>
 
         </div>
     )

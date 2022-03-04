@@ -7,7 +7,7 @@ import VillagesFilter from "../../components/VillagesFilter/VillagesFilter"
 import VillagesResultsList from "../../components/VillagesResultsList/VillagesResultsList"
 
 
-const VillagesResultsListPage = () => {
+const VillagesResultsByProvinceListPage = () => {
 
     const [filteredVillagesByProvince, setFilteredVillagesByProvince] = useState([])
     const { province } = useParams()
@@ -30,4 +30,4 @@ const VillagesResultsListPage = () => {
     )
 }
 
-export default VillagesResultsListPage
+export default VillagesResultsByProvinceListPage
