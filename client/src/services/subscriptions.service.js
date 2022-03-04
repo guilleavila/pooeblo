@@ -6,8 +6,8 @@ class SubscriptionsService {
         this.api = axios.create({ baseURL: `${process.env.REACT_APP_API_URL}/subscriptions` })
     }
 
-    getAllSubscriptionsOfOneUser = () => {  // tengo que pasarle el usuario o lo cojo del contexto?
-        return this.api.get('/')
+    getAllSubscriptionsOfOneUser = (id) => {  // tengo que pasarle el usuario o lo cojo del contexto?
+        return this.api.get(`/mySubscription/${id}`)
     }
 
     createSubscription = subscription => {

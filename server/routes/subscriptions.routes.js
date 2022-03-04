@@ -4,12 +4,13 @@ const Subscription = require('../models/Subscription.model')
 const House = require('../models/House.model')
 
 // GET - GET USER'S SUBSCRIPTIONS
-router.get('/', (req, res) => {
+router.get('/mySubscription/:user_id', (req, res) => {
     // no es un formulario --> mirar contexto
-    const { user_id } = req.body
+    const { user_id } = req.params
 
     Subscription
         .find({ coRenter: user_id })
+        .populate('house')
         .then(response => res.json(response))
         .catch(err => res.status(500).json(err))
 })

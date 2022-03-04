@@ -196,49 +196,4 @@ router.get('/verify', isAuthenticated, (req, res, next) => {
 })
 
 
-
-// // --- VILLAGE LOGIN ROUTE
-// router.post('/village-login', (req, res, next) => {
-//     const { email, password } = req.body
-
-//     if (email === '' || password === '') {
-//         res.status(400).json({ message: 'Provide email and password' })
-//         return
-//     }
-
-//     Village
-//         .findOne({ email })
-//         .then((foundVillage) => {
-
-//             if (!foundVillage) {
-//                 res.status(401).json({ message: 'Village not found' })
-//                 return
-//             }
-
-//             if (bcrypt.compareSync(password, foundVillage.password)) {
-
-//                 const { name, lat, lng, email, phoneNumber, CCAA, province, profileImg, description, website, features, _id } = foundVillage
-
-//                 const payload = { name, lat, lng, email, phoneNumber, CCAA, province, profileImg, description, website, features, _id }
-
-//                 const authToken = jwt.sign(
-//                     payload,
-//                     process.env.TOKEN_SECRET,
-//                     { algorithm: 'HS256', expiresIn: '6h' }
-//                 )
-
-//                 res.status(200).json({ authToken })
-
-//             } else {
-//                 res.status(401).json({ message: 'Unable to authenticate the user' })
-//             }
-//         })
-//         .catch(err => {
-//             console.log(err)
-//             res.status(500).json({ message: 'Internal Server Error' })
-//         })
-// })
-
-
-
 module.exports = router

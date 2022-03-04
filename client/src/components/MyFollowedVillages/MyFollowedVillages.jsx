@@ -32,7 +32,7 @@ const MyFollowedVillages = () => {
         <>
             {
                 isLoaded && myFollowedVillages.map(eachVillage => {
-                    return <p key={eachVillage._id}>{eachVillage.name}</p>
+                    return <p key={eachVillage._id}>Vengo sin props -- {eachVillage.name}</p>
                 })
             }
             <hr />

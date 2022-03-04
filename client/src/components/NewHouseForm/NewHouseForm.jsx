@@ -139,7 +139,7 @@ const NewHouseForm = () => {
                 <Form.Control type="text" name="village" value={houseState.village} onChange={handleInputChange} />
             </Form.Group>
 
-            <Button variant="dark" type="submit" style={{ width: '100%' }}>Registrar</Button>
+            <Button variant="dark" type="submit" style={{ width: '100%' }}>Crear casa</Button>
 
         </Form>
     )
