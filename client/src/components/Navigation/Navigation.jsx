@@ -11,7 +11,7 @@ const Navigation = () => {
         <Navbar bg="dark" variant='dark' expand="lg" style={{ marginBottom: 30 }}>
             <Container>
                 <NavLink to="/">
-                    <Navbar.Brand as="span">POOEBLO KK</Navbar.Brand>
+                    <Navbar.Brand as="span">POOEBLO</Navbar.Brand>
                 </NavLink>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">

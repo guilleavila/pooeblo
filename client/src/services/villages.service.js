@@ -54,6 +54,14 @@ class VillagesService {
         return this.api.get(`/search-villages-by-province/${input}`)
     }
 
+    getVillagesByCoast = () => {
+        return this.api.get(`/search-villages-in-the-coast`)
+    }
+
+    getVillagesByMountain = () => {
+        return this.api.get(`/search-villages-in-the-mountain`)
+    }
+
 }
 
 const villagesService = new VillagesService()
