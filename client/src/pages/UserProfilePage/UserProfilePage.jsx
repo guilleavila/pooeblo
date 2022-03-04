@@ -1,11 +1,11 @@
 import { useContext, useState } from "react"
 import { AuthContext } from "../../context/auth.context"
 import MyHouses from "../../components/MyHouses/MyHouses"
-import { Container } from "react-bootstrap"
+import { Container, Row } from "react-bootstrap"
 import MyFollowedVillages from "../../components/MyFollowedVillages/MyFollowedVillages"
 import { useEffect } from "react"
 import userService from "../../services/user.service"
-import MyFollowedVillagesTwo from '../../components/MyFollowedVillagesTwo/MyFollowedVillagesTwo'
+import MyFollowedVillagesTwo from '../../components/MyFollowedVillages/MyFollowedVillages'
 import MyFavHouses from "../../components/MyFavHouses/MyFavHouses"
 import MyRentings from "../../components/MyRentings/MyRentings"
 
@@ -41,8 +41,9 @@ const UserProfilePage = () => {
             <h1>Bienvenid@ {user?.firstName}</h1>
 
             <h2>Aquí deberían ir los pueblos a los que sigues</h2>
-            <MyFollowedVillages />
-            {isLoaded && < MyFollowedVillagesTwo followedVillages={userDetails.followedVillages} />}
+            <Row>
+                {isLoaded && < MyFollowedVillages followedVillages={userDetails.followedVillages} />}
+            </Row>
 
             <h2>Aquí deberían ir tus casas favoritas</h2>
             {isLoaded && <MyFavHouses favHouses={userDetails.favHouses} />}

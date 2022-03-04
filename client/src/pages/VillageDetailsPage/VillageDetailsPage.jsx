@@ -7,9 +7,6 @@ import { AuthContext } from "../../context/auth.context"
 import userService from "../../services/user.service"
 import FollowBtn from "../../components/FollowBtn/FollowBtn"
 
-// Primero, buscar los pueblos a los que sigue un usuario
-//Si ya sigue a este pueblo, que el estado inicial sea dejar de SVGFEGaussianBlurElement
-// Si no, que sea seguir con una variable que le pasamos al estado como estado inicial
 
 const VillageDetailsPage = () => {
 
@@ -42,15 +39,21 @@ const VillageDetailsPage = () => {
                 console.log(data)
                 console.log(data.followedVillages)
 
+                let foundFollowedVillage = ''
+
                 data?.followedVillages.forEach(elm => {
                     if (elm.name === villageDetails.name) {
-                        setIsFollowing(true)
-                        setBtnState('Dejar de seguir')
-                    } else {
-                        setIsFollowing(false)
-                        setBtnState('Seguir pueblo')
+                        foundFollowedVillage = elm.name
                     }
                 })
+
+                if (foundFollowedVillage !== '') {
+                    setIsFollowing(true)
+                    setBtnState('Dejar de seguir')
+                } else {
+                    setIsFollowing(false)
+                    setBtnState('Seguir pueblo')
+                }
             })
     }
 

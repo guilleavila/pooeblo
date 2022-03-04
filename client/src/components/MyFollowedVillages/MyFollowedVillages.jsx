@@ -1,38 +1,18 @@
-import { useContext } from "react"
-import { useState, useEffect } from "react"
-import { AuthContext } from "../../context/auth.context"
-import userService from "../../services/user.service"
+import { Col } from "react-bootstrap"
 import VillageCard from "../VillageCard/VillageCard"
 
-
-const MyFollowedVillages = () => {
-
-    const { user } = useContext(AuthContext)
-
-    const [myFollowedVillages, setMyFollowedVillages] = useState([])
-    const [isLoaded, setIsLoaded] = useState(false)
-
-    useEffect(() => {
-        if (user) {
-            getFollowedVillages()
-        }
-    }, [user])
-
-    const getFollowedVillages = () => {
-        userService
-            .getUserDetails(user?._id)
-            .then(({ data }) => {
-                setMyFollowedVillages(data.followedVillages)
-                setIsLoaded(true)
-            })
-            .catch(err => console.log(err))
-    }
+const MyFollowedVillages = ({ followedVillages }) => {
 
     return (
         <>
             {
-                isLoaded && myFollowedVillages.map(eachVillage => {
-                    return <VillageCard key={eachVillage._id} {...eachVillage} />
+                followedVillages.map(eachVillage => {
+                    return (
+                        <Col sm={4} key={eachVillage._id}>
+                            <VillageCard {...eachVillage} />
+                        </Col>
+
+                    )
                 })
             }
             <hr />
