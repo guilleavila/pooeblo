@@ -48,6 +48,12 @@ const villageSchema = new Schema(
       },
       coordinates: [Number]
     },
+    isCoastalVillage: {
+      type: Boolean
+    },
+    isMountainVillage: {
+      type: Boolean
+    },
     features: {
       distanceToCity: {
         type: Number,

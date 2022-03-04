@@ -19,7 +19,7 @@ router.get('/', (req, res) => {
 
 // GET --- GET ONE VILLAGE
 
-router.get('findOneVillage/:village_id', (req, res) => {
+router.get('/findOneVillage/:village_id', (req, res) => {
 
     const { village_id } = req.params
 
@@ -152,31 +152,62 @@ router.get('/search-village-by-name/:input_text', (req, res) => {
 
 
 // GET --- GET ALL PROVINCES
-router.get('/provinces', (req, res) => {
+// router.get('/provinces/:input_text', (req, res) => {
+
+//     const provinces = []
+//     const { input_text } = req.params // tengo que hacer un filter aquí para que me de las provincias según escribo?
+
+//     Village
+//         .find()
+//         .select('province')
+//         .then(response => {
+
+
+
+//             let filteredProvinces = [...new Set(response)]
+//             filteredProvinces
+//                 .filter((eachProvince) => eachProvince.toLowerCase().includes(input_text))
+//                 .map(eachProvince => eachProvince[0].toUpperCase() + eachProvince.substring(1))
+
+//             console.log(filteredProvinces)
+//             res.json(filteredProvinces)
+//         })
+//         .catch(err => res.status(500).json(err))
+// })
+
+
+router.get('/provinces/:input_text', (req, res) => {
 
     const provinces = []
+    const { input_text } = req.params
 
     Village
         .find()
         .select('province')
         .then(response => {
-            response.map(elm => provinces.indexOf(elm.province) === -1 ? provinces.push(elm.province) : null)
-            res.json(provinces)
+            response.forEach(elm => !provinces.includes(elm.province) && provinces.push(elm.province))
+            let filteredProvinces = provinces.filter((eachProvince) => {
+                return eachProvince.toLowerCase().includes(input_text.toLowerCase())
+            })
+            res.json(filteredProvinces)
         })
         .catch(err => res.status(500).json(err))
 })
 
 
 // GET - SEARCH VILLAGE BY PROVINCE
-router.get('/search-village-by-province/:input-select', (req, res) => {
+router.get('/search-villages-by-province/:input_select', (req, res) => {
 
     const { input_select } = req.params
 
     Village
-        .find({ province: input_select })
+        .find({ province: { $regex: input_select, $options: 'i' } })
+        .then(response => res.json(response))
+        .catch(err => console.log(err))
 })
 
 // GET - SEARCH COAST VILLAGE
+
 
 // GET - SEARCH MOUNTAIN VILLAGE
 

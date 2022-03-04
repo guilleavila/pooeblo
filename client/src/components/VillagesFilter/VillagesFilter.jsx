@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom'
 const VillagesFilter = () => {
 
     const [filteredVillagesByName, setFilteredVillagesByName] = useState([])
-    const [filteredVillagesByProvince, setFilteredVillagesByProvince] = useState([])
+    const [provinces, setProvinces] = useState([])
 
     const handleVillagesByNameFilter = e => {
 
@@ -24,13 +24,25 @@ const VillagesFilter = () => {
         }
     }
 
+    const getProvinces = e => {
+
+        if (e.target.value === '') {
+            setProvinces([])
+        } else {
+            villagesService
+                .getAllProvinces(e.target.value)
+                .then(({ data }) => setProvinces(data))
+                .catch(err => console.log(err))
+        }
+    }
+
     return (
         <div className='villagesFilter'>
 
             <input type='text' placeholder='busca un pueblo' onChange={handleVillagesByNameFilter} />
 
             {
-                filteredVillagesByName.length != 0 && (
+                filteredVillagesByName.length !== 0 && (
                     <div className='villagesResult'>
                         {
                             filteredVillagesByName.map(village => {
@@ -42,7 +54,20 @@ const VillagesFilter = () => {
                     </div>)
             }
 
-            <input type="text" placeholder='busca por provincia' />
+            <input type='text' placeholder='busca por provincia' onChange={getProvinces} />
+
+            {
+                provinces.length !== 0 && (
+                    <div className='villagesResult'>
+                        {
+                            provinces.map(province => {
+                                return <Link key={province} to={`/pueblos/resultados/${province}`}>
+                                    <p className='villageItem'>{province}</p>
+                                </Link>
+                            })
+                        }
+                    </div>)
+            }
 
         </div>
     )

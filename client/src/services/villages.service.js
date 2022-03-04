@@ -11,7 +11,7 @@ class VillagesService {
     }
 
     getOneVillage = id => {
-        return this.api.get(`findOneVillage/${id}`)
+        return this.api.get(`/findOneVillage/${id}`)
     }
 
     editVillageInfo = (id, villageInfo) => {
@@ -43,11 +43,15 @@ class VillagesService {
     }
 
     getVillagesByName = input => {
-        return this.api.get(`/search-village/${input}`)
+        return this.api.get(`/search-village-by-name/${input}`)
     }
 
-    getAllProvinces = () => {
-        return this.api.get(`/provinces`)
+    getAllProvinces = input => {
+        return this.api.get(`/provinces/${input}`)
+    }
+
+    getVillagesByProvince = input => {
+        return this.api.get(`/search-villages-by-province/${input}`)
     }
 
 }

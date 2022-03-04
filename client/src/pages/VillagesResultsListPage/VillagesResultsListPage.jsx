@@ -1,32 +1,31 @@
 import { useState, useEffect } from "react"
+import { useParams } from "react-router-dom"
 
 import villagesService from "../../services/villages.service"
 
 import VillagesFilter from "../../components/VillagesFilter/VillagesFilter"
-import VillagesResultsList from "../../components/VillagesList/VillagesList"
+import VillagesResultsList from "../../components/VillagesResultsList/VillagesResultsList"
+
 
 const VillagesResultsListPage = () => {
 
-    const [villages, setVillages] = useState([])
+    const [filteredVillagesByProvince, setFilteredVillagesByProvince] = useState([])
+    const { province } = useParams()
 
     useEffect(() => {
-        loadVillages()
-    }, [])
-
-    const loadVillages = () => {
         villagesService
-            .getAllVillages()
+            .getVillagesByProvince(province)
             .then(({ data }) => {
-                setVillages(data)
+                setFilteredVillagesByProvince(data)
             })
             .catch(err => console.log(err))
-    }
+    }, [province])
 
     return (
         <section>
-            <h1>SOY LA LISTA DE LOS RESULTADOS DE LOS PUEBLOS</h1>
-            <VillagesFilter villages={villages} />
-            <VillagesResultsList villages={villages} />
+            <h1>LISTA DE LOS RESULTADOS DE LOS PUEBLOS POR PROVINCIA</h1>
+            <VillagesFilter />
+            <VillagesResultsList results={filteredVillagesByProvince} />
         </section>
     )
 }
