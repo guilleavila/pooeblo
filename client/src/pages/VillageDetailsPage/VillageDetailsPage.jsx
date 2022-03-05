@@ -1,8 +1,7 @@
 import { Container, Row, Col, Button } from "react-bootstrap"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useContext } from "react"
 import { useParams, Link } from "react-router-dom"
 import villagesService from "../../services/villages.service"
-import { useContext } from "react"
 import { AuthContext } from "../../context/auth.context"
 import userService from "../../services/user.service"
 import FollowBtn from "../../components/FollowBtn/FollowBtn"
@@ -57,8 +56,6 @@ const VillageDetailsPage = () => {
                 }
             })
     }
-
-
 
 
     const handleFollowBtn = () => {

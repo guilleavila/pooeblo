@@ -76,10 +76,9 @@ router.delete("/:house_id/delete", (req, res) => {
 
 
 // --- ADD HOUSE TO FAVS ROUTE
-router.put('/:house_id/add-to-fav', (req, res) => {
+router.put('/:house_id/add-to-fav/:user_id', (req, res) => {
 
-    const { house_id } = req.params
-    const { user_id } = req.body
+    const { house_id, user_id } = req.params
 
     User
         .findByIdAndUpdate(user_id, { $addToSet: { favHouses: house_id } })
@@ -89,10 +88,9 @@ router.put('/:house_id/add-to-fav', (req, res) => {
 
 
 // --- SUBTRACT HOUSE FROM FAVS ROUTE
-router.put('/:house_id/subtract-from-fav', (req, res) => {
+router.put('/:house_id/subtract-from-fav/:user_id', (req, res) => {
 
-    const { house_id } = req.params
-    const { user_id } = req.body
+    const { house_id, user_id } = req.params
 
     User
         .findByIdAndUpdate(user_id, { $pull: { favHouses: house_id } })
