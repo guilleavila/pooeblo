@@ -17,7 +17,7 @@ const VillageFeaturesForm = () => {
         otherServices: ''
     })
 
-    const { pueblo_id } = useParams()
+    const { village_id } = useParams()
     const navigate = useNavigate()
 
     const handleInputChange = e => {
@@ -40,7 +40,7 @@ const VillageFeaturesForm = () => {
         e.preventDefault()
 
         villagesService
-            .editVillageFeatures(pueblo_id, featuresForm)
+            .editVillageFeatures(village_id, featuresForm)
             .then(({ data }) => {
                 navigate('/iniciar-sesion')
             })

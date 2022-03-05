@@ -78,6 +78,10 @@ const VillagesFilter = () => {
                 <Button>PUEBLOS DE MONTAÑA</Button>
             </Link>
 
+            <Link to={`/pueblos/resultados`}>
+                <Button>VER TODOS</Button>
+            </Link>
+
         </div>
     )
 }

@@ -15,17 +15,18 @@ const VillageDetailsPage = () => {
     const [isFollowing, setIsFollowing] = useState()
     const [btnState, setBtnState] = useState('Cargando...')
 
-    const { pueblo_id } = useParams()
+    const { village_id } = useParams()
     const { user } = useContext(AuthContext)
 
 
 
     useEffect(() => {
         villagesService
-            .getOneVillage(pueblo_id)
+            .getOneVillage(village_id)
             .then(({ data }) => setVillageDetails(data))
             .catch(err => console.log(err))
     }, [])
+
 
     useEffect(() => {
         villageDetails.name && checkIfFollowed()
@@ -64,7 +65,7 @@ const VillageDetailsPage = () => {
 
         if (!isFollowing) {
             villagesService
-                .followVillage(pueblo_id, user?._id)
+                .followVillage(village_id, user?._id)
                 .then(() => {
                     setIsFollowing(true)
                     setBtnState('Dejar de seguir')
@@ -72,7 +73,7 @@ const VillageDetailsPage = () => {
                 .catch(err => console.log(err))
         } else if (isFollowing) {
             villagesService
-                .unfollowVillage(pueblo_id, user?._id)
+                .unfollowVillage(village_id, user?._id)
                 .then(() => {
                     setIsFollowing(false)
                     setBtnState('Seguir pueblo')
