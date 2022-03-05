@@ -11,6 +11,12 @@ router.get('/mySubscription/:user_id', (req, res) => {
     Subscription
         .find({ coRenter: user_id })
         .populate('house')
+        .populate({
+            path: 'house',
+            populate: [
+                { path: 'village' }
+            ]
+        })
         .then(response => res.json(response))
         .catch(err => res.status(500).json(err))
 })

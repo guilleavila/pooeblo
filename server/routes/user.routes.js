@@ -13,6 +13,12 @@ router.get('/:user_id', (req, res) => {
         .findById(user_id)
         .populate('followedVillages')
         .populate('favHouses')
+        .populate({
+            path: 'favHouses',
+            populate: [
+                { path: 'village' }
+            ]
+        })
         .then(response => res.json(response))
         .catch(err => res.status(500).json(err))
 })

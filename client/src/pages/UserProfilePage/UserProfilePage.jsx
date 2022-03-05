@@ -5,9 +5,9 @@ import { Container, Row } from "react-bootstrap"
 import MyFollowedVillages from "../../components/MyFollowedVillages/MyFollowedVillages"
 import { useEffect } from "react"
 import userService from "../../services/user.service"
-import MyFollowedVillagesTwo from '../../components/MyFollowedVillages/MyFollowedVillages'
-import MyFavHouses from "../../components/MyFavHouses/MyFavHouses"
+import ResultsHouses from "../../components/ResultsHouses/ResultsHouses"
 import MyRentings from "../../components/MyRentings/MyRentings"
+import subscriptionsService from "../../services/subscriptions.service"
 
 const UserProfilePage = () => {
 
@@ -16,9 +16,13 @@ const UserProfilePage = () => {
     const [userDetails, setUserDetails] = useState([])
     const [isLoaded, setIsLoaded] = useState(false)
 
+    const [subscriptions, setSubscriptions] = useState([])
+    const [subsLoaded, setSubsLoaded] = useState(false)
+
     useEffect(() => {
         if (user) {
             getDetails()
+            getSubscriptions()
         }
     }, [user])
 
@@ -29,6 +33,16 @@ const UserProfilePage = () => {
             .getUserDetails(user?._id)
             .then(({ data }) => {
                 setUserDetails(data)
+                setIsLoaded(true)
+            })
+            .catch(err => console.log(err))
+    }
+
+    const getSubscriptions = () => {
+        subscriptionsService
+            .getAllSubscriptionsOfOneUser(user?._id)
+            .then(({ data }) => {
+                setSubscriptions(data)
                 setIsLoaded(true)
             })
             .catch(err => console.log(err))
@@ -46,9 +60,14 @@ const UserProfilePage = () => {
             </Row>
 
             <h2>Aquí deberían ir tus casas favoritas</h2>
-            {isLoaded && <MyFavHouses favHouses={userDetails.favHouses} />}
+            <Row>
+                {isLoaded && < ResultsHouses houses={userDetails.favHouses} width={6} />}
+            </Row>
 
             <h2>Aquí deberían ir tus rentings</h2>
+            <Row>
+                {subsLoaded && < ResultsHouses houses={subscriptions} width={4} />}
+            </Row>
             <MyRentings />
 
             <h2>Aquí deberían ir tus casas</h2>
