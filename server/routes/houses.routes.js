@@ -19,7 +19,7 @@ router.get("/", (req, res) => {
 // --- CREATE HOUSE ROUTE 
 router.post("/create", (req, res) => {
 
-    const { name, description, priceDay, services, roomsDescription, maxGuests, images, availableDaysLeft, lat, lng, village, owner } = req.body
+    const { name, description, priceDay, services, roomsDescription, maxGuests, images, availableDaysLeft, lat, lng, village, street, owner } = req.body
 
     const location = {
         type: 'Point',
@@ -27,9 +27,12 @@ router.post("/create", (req, res) => {
     }
 
     House
-        .create({ name, description, priceDay, services, roomsDescription, maxGuests, images, availableDaysLeft, location, village, owner })
+        .create({ name, description, priceDay, services, roomsDescription, maxGuests, images, availableDaysLeft, location, village, street, owner })
         .then(response => res.json(response))
-        .catch(err => res.status(500).json(err))
+        .catch(err => {
+            console.log(err)
+            res.status(500).json(err)
+        })
 })
 
 

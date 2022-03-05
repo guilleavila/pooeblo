@@ -8,7 +8,6 @@ import { geocodeByAddress, getLatLng } from 'react-google-places-autocomplete';
 const VillageSignupForm = ({ updateState }) => {
 
     const [value, setValue] = useState(null);
-
     const [latitude, setLatitude] = useState()
     const [longitude, setLongitude] = useState()
     const [comAut, setComAut] = useState()

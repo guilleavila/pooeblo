@@ -39,6 +39,10 @@ const houseSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'Village'
     },
+    street: {
+      type: String,
+      required: [true, 'Indica la dirección']
+    },
     owner: {
       type: Schema.Types.ObjectId,
       ref: 'User'
