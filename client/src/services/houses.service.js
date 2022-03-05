@@ -27,11 +27,11 @@ class HousesService {
     }
 
     addHouseToFavs = (id, user) => {
-        return this.api.put(`/${id}/add-to-fav`, user)
+        return this.api.put(`/${id}/add-to-fav/${user}`)
     }
 
     substractHouseFromFavs = (id, user) => {
-        return this.api.put(`/${id}/subtract-from-fav`, user)
+        return this.api.put(`/${id}/subtract-from-fav/${user}`)
     }
 
     getAllBookingsOfOneHose = id => {
