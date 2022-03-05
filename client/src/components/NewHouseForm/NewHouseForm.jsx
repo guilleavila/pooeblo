@@ -90,6 +90,11 @@ const NewHouseForm = () => {
             </Form.Group>
 
             <Form.Group className="mb-3">
+                <Form.Label>Pueblo</Form.Label>
+                <Form.Control type="text" name="village" value={houseState.village} onChange={handleInputChange} />
+            </Form.Group>
+
+            <Form.Group className="mb-3">
                 <Form.Label>Descripción</Form.Label>
                 <Form.Control as="textarea" name="description" value={houseState.description} onChange={handleInputChange} />
             </Form.Group>
@@ -132,11 +137,6 @@ const NewHouseForm = () => {
             <Form.Group className="mb-3">
                 <Form.Label>Lng</Form.Label>
                 <Form.Control type="number" name="lng" value={houseState.lng} onChange={handleInputChange} />
-            </Form.Group>
-
-            <Form.Group className="mb-3">
-                <Form.Label>Pueblo</Form.Label>
-                <Form.Control type="text" name="village" value={houseState.village} onChange={handleInputChange} />
             </Form.Group>
 
             <Button variant="dark" type="submit" style={{ width: '100%' }}>Crear casa</Button>

@@ -56,6 +56,7 @@ router.get("/:user_id/properties", (req, res) => {
 
     House
         .find({ owner: user_id })
+        .populate('village')
         .then(response => res.json(response))
         .catch(err => res.status(500).json(err))
 })

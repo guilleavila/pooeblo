@@ -3,8 +3,6 @@ import VillageCard from "../VillageCard/VillageCard"
 
 const VillagesResultsList = ({ results }) => {
 
-    console.log(results)
-
     return (
         <Row>
             {

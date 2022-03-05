@@ -37,9 +37,6 @@ const VillageDetailsPage = () => {
             .getUserDetails(user?._id)
             .then(({ data }) => {
 
-                console.log(data)
-                console.log(data.followedVillages)
-
                 let foundFollowedVillage = ''
 
                 data?.followedVillages.forEach(elm => {

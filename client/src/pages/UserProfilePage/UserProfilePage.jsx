@@ -17,12 +17,14 @@ const UserProfilePage = () => {
     const [isLoaded, setIsLoaded] = useState(false)
 
     const [subscriptions, setSubscriptions] = useState([])
-    const [subsLoaded, setSubsLoaded] = useState(false)
+    // const [subsLoaded, setSubsLoaded] = useState(false)
+    const [myHouses, setMyHouses] = useState([])
 
     useEffect(() => {
         if (user) {
             getDetails()
             getSubscriptions()
+            getMyHouses()
         }
     }, [user])
 
@@ -42,8 +44,25 @@ const UserProfilePage = () => {
         subscriptionsService
             .getAllSubscriptionsOfOneUser(user?._id)
             .then(({ data }) => {
-                setSubscriptions(data)
-                setIsLoaded(true)
+                const subsArr = []
+                data.forEach(eachSubscription => {
+                    subsArr.push(eachSubscription.house)
+                })
+                return subsArr
+            })
+            .then(subsArr => {
+                setSubscriptions(subsArr)
+                // setSubsLoaded(true)
+            })
+
+            .catch(err => console.log(err))
+    }
+
+    const getMyHouses = () => {
+        userService
+            .getAllPropertiesOfOneUser(user?._id)
+            .then(({ data }) => {
+                setMyHouses(data)
             })
             .catch(err => console.log(err))
     }
@@ -66,12 +85,13 @@ const UserProfilePage = () => {
 
             <h2>Aquí deberían ir tus rentings</h2>
             <Row>
-                {subsLoaded && < ResultsHouses houses={subscriptions} width={4} />}
+                < ResultsHouses houses={subscriptions} width={4} />
             </Row>
-            <MyRentings />
 
             <h2>Aquí deberían ir tus casas</h2>
-            <MyHouses />
+            <Row>
+                < ResultsHouses houses={myHouses} width={3} />
+            </Row>
 
         </Container>
     )

@@ -11,10 +11,16 @@ const VillageSignupForm = ({ updateState }) => {
 
     const [latitude, setLatitude] = useState()
     const [longitude, setLongitude] = useState()
+    const [comAut, setComAut] = useState()
+    const [prov, setProv] = useState()
+    const [villageName, setVillageName] = useState()
 
     geocodeByAddress(value?.value.description)
         .then(results => {
             console.log('SOY EL RESULT', results)
+            setVillageName(results[0].address_components[0].long_name)
+            setProv(results[0].address_components[1].long_name)
+            setComAut(results[0].address_components[2].long_name)
             return getLatLng(results[0])
         })
         .then((response) => {
@@ -41,8 +47,11 @@ const VillageSignupForm = ({ updateState }) => {
         setSignupForm({
             ...signupForm,
             [name]: value,
+            name: villageName,
+            CCAA: comAut,
+            province: prov,
             lat: latitude,
-            lng: longitude
+            lng: longitude,
         })
     }
 
@@ -65,26 +74,27 @@ const VillageSignupForm = ({ updateState }) => {
 
         <Form onSubmit={handleSubmit}>
 
-            <Form.Group className="mb-3">
-                <Form.Label>Nombre</Form.Label>
-                <Form.Control type="text" name="name" value={signupForm.name} onChange={handleInputChange} />
-            </Form.Group>
 
             <Form.Group className="mb-3">
-                <Form.Label>Prueba</Form.Label>
+                <Form.Label>Nombre</Form.Label>
                 <GooglePlacesAutocomplete
-                    apiKey="REACT_APP_API_KEY" selectProps={{ value, onChange: setValue }}
+                    apiKey={process.env.REACT_APP_API_KEY} selectProps={{ value, onChange: setValue }}
                 />
             </Form.Group>
 
             <Form.Group className="mb-3">
-                <Form.Label>Lat</Form.Label>
-                <Form.Control type="number" name="lat" value={latitude} onChange={handleInputChange} />
+                {/* <Form.Label>Nombre</Form.Label> */}
+                <Form.Control type="hidden" name="name" value={villageName} onChange={handleInputChange} />
             </Form.Group>
 
             <Form.Group className="mb-3">
-                <Form.Label>Lng</Form.Label>
-                <Form.Control type="number" name="lng" value={longitude} onChange={handleInputChange} />
+                {/* <Form.Label>Lat</Form.Label> */}
+                <Form.Control type="hidden" name="lat" value={latitude} onChange={handleInputChange} />
+            </Form.Group>
+
+            <Form.Group className="mb-3">
+                {/* <Form.Label>Lng</Form.Label> */}
+                <Form.Control type="hidden" name="lng" value={longitude} onChange={handleInputChange} />
             </Form.Group>
 
             <Form.Group className="mb-3">
@@ -103,13 +113,13 @@ const VillageSignupForm = ({ updateState }) => {
             </Form.Group>
 
             <Form.Group className="mb-3">
-                <Form.Label>Comunidad Autónoma</Form.Label>
-                <Form.Control type="text" name="CCAA" value={signupForm.CCAA} onChange={handleInputChange} />
+                {/* <Form.Label>Comunidad Autónoma</Form.Label> */}
+                <Form.Control type="hidden" name="CCAA" value={comAut} onChange={handleInputChange} />
             </Form.Group>
 
             <Form.Group className="mb-3">
-                <Form.Label>Provincia</Form.Label>
-                <Form.Control type="text" name="province" value={signupForm.province} onChange={handleInputChange} />
+                {/* <Form.Label>Provincia</Form.Label> */}
+                <Form.Control type="hidden" name="province" value={prov} onChange={handleInputChange} />
             </Form.Group>
 
             <Button variant="dark" type="submit" style={{ width: '100%' }}>Siguiente</Button>
