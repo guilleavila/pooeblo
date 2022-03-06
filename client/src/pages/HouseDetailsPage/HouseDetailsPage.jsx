@@ -127,6 +127,8 @@ const HouseDetailsPage = () => {
             })
     }
 
+
+
     return (
         <Container>
             <Row>
