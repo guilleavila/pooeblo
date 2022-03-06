@@ -143,4 +143,16 @@ router.get('/:house_id/get-bookings', (req, res) => {
         .catch(err => res.status(500).json(err))
 })
 
+
+// --- GET USER'S SUBSCRIPTIONS
+router.get('/:house_id/:user_id/get-subscription', (req, res) => {
+
+    const { house_id, user_id } = req.params
+
+    Subscription
+        .find({ house: house_id, coRenter: user_id })
+        .then(response => res.json(response))
+        .catch(err => res.status(500).json(err))
+})
+
 module.exports = router

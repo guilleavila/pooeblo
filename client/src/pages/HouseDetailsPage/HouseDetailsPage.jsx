@@ -139,7 +139,7 @@ const HouseDetailsPage = () => {
             <Row>
                 <Col sm={9}>
                     <h1>{houseDetails?.name} </h1>
-                    {isSuscriber ? <Bookings house={house_id} /> : <NewSubscriptionForm {...houseDetails} />}
+                    {isSuscriber ? <Bookings houseId={house_id} /> : <NewSubscriptionForm {...houseDetails} />}
                 </Col>
                 <Col sm={3}>
                     <FavBtn btnState={btnState} handleFavBtn={handleFavBtn} />
