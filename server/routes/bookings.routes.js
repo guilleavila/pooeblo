@@ -21,7 +21,10 @@ router.post("/create", (req, res) => {
     Promise
         .all([promise1, promise2])
         .then(response => res.json(response))
-        .catch(err => res.status(500).json(err))
+        .catch(err => {
+            console.log(err)
+            res.status(500).json(err)
+        })
 })
 
 

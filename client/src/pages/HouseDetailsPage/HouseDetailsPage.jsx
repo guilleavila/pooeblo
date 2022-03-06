@@ -10,6 +10,7 @@ import './HouseDetailsPage.css'
 import subscriptionsService from "../../services/subscriptions.service"
 import HouseImages from "../../components/HouseImages/HouseImages"
 import Bookings from "../../components/Bookings/Bookings"
+import Calendar from 'react-calendar'
 
 const HouseDetailsPage = () => {
 
@@ -145,8 +146,10 @@ const HouseDetailsPage = () => {
                     <FavBtn btnState={btnState} handleFavBtn={handleFavBtn} />
                 </Col>
             </Row>
+            <Row>
+                {isLoaded && <HouseImages houseImages={houseImages} {...houseDetails} isMine={isMine} updataeImagesState={updataeImagesState}></HouseImages>}
+            </Row>
 
-            {isLoaded && <HouseImages houseImages={houseImages} {...houseDetails} isMine={isMine} updataeImagesState={updataeImagesState}></HouseImages>}
 
         </Container>
     )
