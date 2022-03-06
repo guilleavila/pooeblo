@@ -22,6 +22,10 @@ class HousesService {
         return this.api.put(`/${id}/edit`, houseInfo)
     }
 
+    deleteOneImage = (id, houseImages) => {
+        return this.api.put(`/${id}/edit-image`, houseImages)
+    }
+
     deleteHouse = id => {
         return this.api.delete(`/${id}/delete`)
     }

@@ -66,6 +66,22 @@ router.put("/:house_id/edit", (req, res) => {
 })
 
 
+// --- DELETE ONE IMAGE
+router.put("/:house_id/edit-image", (req, res) => {
+
+    const { house_id } = req.params
+    const houseImages = req.body
+
+    console.log('REQBODY -----', req.body)
+    console.log('houseimages -----', houseImages)
+
+    House
+        .findByIdAndUpdate(house_id, { images: houseImages }, { new: true })
+        .then(response => res.json(response))
+        .catch(err => res.status(500).json(err))
+})
+
+
 // --- DELETE HOUSE ROUTE
 router.delete("/:house_id/delete", (req, res) => {
 

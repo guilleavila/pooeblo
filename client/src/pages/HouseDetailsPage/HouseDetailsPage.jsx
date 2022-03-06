@@ -5,9 +5,10 @@ import NewSubscriptionForm from "../../components/NewSubscriptionForm/NewSubscri
 import { AuthContext } from "../../context/auth.context"
 import housesService from "../../services/houses.service"
 import userService from "../../services/user.service"
-import { Container, Col, Row } from 'react-bootstrap'
+import { Container, Col, Row, Button } from 'react-bootstrap'
 import './HouseDetailsPage.css'
 import subscriptionsService from "../../services/subscriptions.service"
+import HouseImages from "../../components/HouseImages/HouseImages"
 
 const HouseDetailsPage = () => {
 
@@ -20,14 +21,24 @@ const HouseDetailsPage = () => {
 
     const [isSuscriber, setIsSuscribed] = useState()
 
+    const [showBtn, setShowBtn] = useState('hidden')
+
+    const [houseImages, setHouseImages] = useState([])
+
     const { house_id } = useParams()
     const { user } = useContext(AuthContext)
+
+    function updataeImagesState(images) {
+        setHouseImages(images)
+    }
 
     useEffect(() => {
         housesService
             .getOneHouse(house_id)
             .then(({ data }) => {
+                console.log(data)
                 setHouseDetails(data)
+                setHouseImages(data.images)
                 setIsLoaded(true)
             })
             .catch(err => console.log(err))
@@ -37,9 +48,6 @@ const HouseDetailsPage = () => {
         houseDetails.name && checkIfFav()
     }, [user, houseDetails])
 
-    useEffect(() => {
-        houseDetails.name && checkIfSubscribed()
-    }, [user, houseDetails])
 
     const checkIfFav = () => {
         userService
@@ -61,22 +69,21 @@ const HouseDetailsPage = () => {
                     setIsFav(false)
                     setBtnState('Añadir a favoritos')
                 }
-
             })
     }
 
-    const checkIfMine = () => {
-        // en procesooooooooo
+    useEffect(() => {
+        houseDetails.name && checkIfMine(house_id)
+    }, [user, houseDetails])
+
+    const checkIfMine = (house_id) => {
         userService
             .getAllPropertiesOfOneUser(user?._id)
             .then(({ data }) => {
-
-                let foundMyHouse = ''
-
-                console.log(data)
+                data.forEach(elm => {
+                    if (elm._id === house_id) setIsMine(true)
+                })
             })
-
-
     }
 
     const handleFavBtn = () => {
@@ -105,11 +112,9 @@ const HouseDetailsPage = () => {
         subscriptionsService
             .getAllSubscriptionsOfOneUser(user?._id)
             .then(({ data }) => {
-                console.log(data)
                 let foundSubsHouse = ''
 
                 data.forEach(elm => {
-                    console.log('soy el id de la casa', elm.house._id)
                     if (house_id === elm.house._id) {
                         foundSubsHouse = elm.house.name
                     }
@@ -117,21 +122,41 @@ const HouseDetailsPage = () => {
                 })
 
                 if (foundSubsHouse !== '') {
-                    console.log('estas suscrito a esta casa')
                     setIsSuscribed(true)
                 } else {
-                    console.log('no estás suscrito a la casa')
                     setIsSuscribed(false)
                 }
             })
     }
+
+    // EDIT IMAGES BTN
+    const handleEditBtn = () => {
+        if (showBtn === 'hidden') setShowBtn('shown')
+        else setShowBtn('hidden')
+    }
+
+    const handleDeleteBtn = (imgUrl) => {
+
+        console.log(imgUrl)
+        const newImages = houseImages.filter(eachImage => eachImage !== imgUrl)
+
+        setHouseImages(newImages)
+        console.log('despues del filter --->', newImages)
+        console.log('despues del setHouseImages --->', houseImages)
+
+        housesService
+            .deleteOneImage(house_id, newImages)
+            .then(({ data }) => console.log('resultado del cliente --->', data))
+            .catch(err => console.log(err))
+
+    }
+
 
     return (
         <Container>
             <Row>
                 <Col sm={9}>
                     <h1>{houseDetails?.name} </h1>
-                    <FavBtn btnState={btnState} handleFavBtn={handleFavBtn} />
                     {isSuscriber ? <p>Ya estás suscrito</p> : <NewSubscriptionForm {...houseDetails} />}
                 </Col>
                 <Col sm={3}>
@@ -139,42 +164,7 @@ const HouseDetailsPage = () => {
                 </Col>
             </Row>
 
-            {
-                isLoaded && (houseDetails?.images.length === 0) &&
-                <Row>
-                    <Col sm={7}>
-                        <img className="houseImg" src="https://img.freepik.com/vector-gratis/casa-gris-paredes-ruinas_1308-73951.jpg?w=1480" alt="default" />
-                    </Col>
-                </Row>
-            }
-
-            {
-                isLoaded && (houseDetails?.images.length === 5) &&
-                <Row>
-                    <Col sm={6}>
-                        <img className="houseImg" src={houseDetails?.images[0]} alt="default" />
-                    </Col>
-
-                    <Col sm={6}>
-                        <Row>
-                            <Col sm={6}>
-                                <img className="houseImg" src={houseDetails?.images[1]} alt="default" />
-                            </Col>
-                            <Col sm={6}>
-                                <img className="houseImg" src={houseDetails?.images[2]} alt="default" />
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col sm={6}>
-                                <img className="houseImg" src={houseDetails?.images[3]} alt="default" />
-                            </Col>
-                            <Col sm={6}>
-                                <img className="houseImg" src={houseDetails?.images[4]} alt="default" />
-                            </Col>
-                        </Row>
-                    </Col>
-                </Row>
-            }
+            {isLoaded && <HouseImages {...houseDetails} isMine={isMine} updataeImagesState={updataeImagesState}></HouseImages>}
 
         </Container>
     )
