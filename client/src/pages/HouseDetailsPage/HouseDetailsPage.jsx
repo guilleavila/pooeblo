@@ -8,6 +8,7 @@ import userService from "../../services/user.service"
 import { Container, Col, Row } from 'react-bootstrap'
 import './HouseDetailsPage.css'
 import subscriptionsService from "../../services/subscriptions.service"
+import Bookings from "../../components/Bookings/Bookings"
 
 const HouseDetailsPage = () => {
 
@@ -132,7 +133,7 @@ const HouseDetailsPage = () => {
                 <Col sm={9}>
                     <h1>{houseDetails?.name} </h1>
                     <FavBtn btnState={btnState} handleFavBtn={handleFavBtn} />
-                    {isSuscriber ? <p>Ya estás suscrito</p> : <NewSubscriptionForm {...houseDetails} />}
+                    {isSuscriber ? <Bookings house={house_id} /> : <NewSubscriptionForm {...houseDetails} />}
                 </Col>
                 <Col sm={3}>
                     <FavBtn btnState={btnState} handleFavBtn={handleFavBtn} />

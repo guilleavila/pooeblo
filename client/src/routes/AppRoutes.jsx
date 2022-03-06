@@ -12,6 +12,7 @@ import VillagesResultsByCoastListPage from '../pages/VillagesResultsByCoastListP
 import VillagesResultsByMountainListPage from '../pages/VillagesResultsByMountainListPage/VillagesResultsByMountainListPage'
 import HouseDetailsPage from '../pages/HouseDetailsPage/HouseDetailsPage'
 import VillagesAllResultsListPage from '../pages/VillagesAllResultsListPage/VillagesAllResultsListPage'
+import PaymentPage from '../pages/PaymentPage/PaymentPage'
 
 
 const AppRoutes = () => {
@@ -32,6 +33,7 @@ const AppRoutes = () => {
             <Route path="/perfil" element={<UserProfilePage />} />
             <Route path='/nueva-casa' element={<NewHousePage />} />
             <Route path='/casa/:house_id' element={<HouseDetailsPage />} />
+            <Route path='/pagar' element={<PaymentPage />} />
 
         </Routes>
     )
