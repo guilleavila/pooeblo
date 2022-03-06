@@ -22,8 +22,6 @@ const HouseDetailsPage = () => {
 
     const [isSuscriber, setIsSuscribed] = useState()
 
-    const [showBtn, setShowBtn] = useState('hidden')
-
     const [houseImages, setHouseImages] = useState([])
 
     const { house_id } = useParams()
@@ -141,7 +139,6 @@ const HouseDetailsPage = () => {
             <Row>
                 <Col sm={9}>
                     <h1>{houseDetails?.name} </h1>
-                    <FavBtn btnState={btnState} handleFavBtn={handleFavBtn} />
                     {isSuscriber ? <Bookings house={house_id} /> : <NewSubscriptionForm {...houseDetails} />}
                 </Col>
                 <Col sm={3}>
@@ -149,7 +146,7 @@ const HouseDetailsPage = () => {
                 </Col>
             </Row>
 
-            {isLoaded && <HouseImages {...houseDetails} isMine={isMine} updataeImagesState={updataeImagesState}></HouseImages>}
+            {isLoaded && <HouseImages houseImages={houseImages} {...houseDetails} isMine={isMine} updataeImagesState={updataeImagesState}></HouseImages>}
 
         </Container>
     )
