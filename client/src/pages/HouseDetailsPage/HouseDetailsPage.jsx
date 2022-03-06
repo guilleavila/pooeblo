@@ -49,6 +49,10 @@ const HouseDetailsPage = () => {
         houseDetails.name && checkIfFav()
     }, [user, houseDetails])
 
+    useEffect(() => {
+        houseDetails.name && checkIfSubscribed()
+    }, [user, houseDetails])
+
 
     const checkIfFav = () => {
         userService
@@ -130,27 +134,6 @@ const HouseDetailsPage = () => {
             })
     }
 
-    // EDIT IMAGES BTN
-    const handleEditBtn = () => {
-        if (showBtn === 'hidden') setShowBtn('shown')
-        else setShowBtn('hidden')
-    }
-
-    const handleDeleteBtn = (imgUrl) => {
-
-        console.log(imgUrl)
-        const newImages = houseImages.filter(eachImage => eachImage !== imgUrl)
-
-        setHouseImages(newImages)
-        console.log('despues del filter --->', newImages)
-        console.log('despues del setHouseImages --->', houseImages)
-
-        housesService
-            .deleteOneImage(house_id, newImages)
-            .then(({ data }) => console.log('resultado del cliente --->', data))
-            .catch(err => console.log(err))
-
-    }
 
 
     return (
