@@ -118,7 +118,7 @@ router.put('/:house_id/subtract-from-fav/:user_id', (req, res) => {
 })
 
 
-// --- GET ALL BOOKINGS
+// --- GET ALL BOOKINGS OF ONE HOUSE (ALL USERS)
 router.get('/:house_id/get-bookings', (req, res) => {
 
     const { house_id } = req.params
@@ -138,6 +138,29 @@ router.get('/:house_id/get-bookings', (req, res) => {
 
             response.forEach(elm => ultimateArr.push(...elm))
             console.log('SPREAD', ultimateArr)
+            return res.json(ultimateArr)
+        })
+        .catch(err => res.status(500).json(err))
+})
+
+// --- GET ALL BOOKINGS OF ONE HOUSE (LOGED USER)
+router.get('/:house_id/:user_id/get-bookings', (req, res) => {
+
+    const { house_id, user_id } = req.params
+
+    Subscription
+        .find({ house: house_id, coRenter: user_id })
+        .then(foundSubscriptions => {
+
+            let bookings = foundSubscriptions.map(elm => Booking.find({ subscription: elm._id }))
+
+            return Promise.all(bookings)
+        })
+        .then((response) => {
+
+            let ultimateArr = []
+
+            response.forEach(elm => ultimateArr.push(...elm))
             return res.json(ultimateArr)
         })
         .catch(err => res.status(500).json(err))

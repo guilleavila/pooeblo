@@ -42,6 +42,10 @@ class HousesService {
         return this.api.get(`/${id}/get-bookings`)
     }
 
+    getAllBookingsOfOneUserForThisHouse = (houseId, userId) => {
+        return this.api.get(`/${houseId}/${userId}/get-bookings`)
+    }
+
     getSubscriptionOfOneUserForThisHouse = (houseId, userId) => {
         return this.api.get(`/${houseId}/${userId}/get-subscription`)
     }

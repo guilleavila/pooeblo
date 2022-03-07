@@ -5,7 +5,7 @@ const House = require('../models/House.model')
 
 // GET - GET USER'S SUBSCRIPTIONS
 router.get('/mySubscription/:user_id', (req, res) => {
-    // no es un formulario --> mirar contexto
+
     const { user_id } = req.params
 
     Subscription
@@ -25,7 +25,6 @@ router.get('/mySubscription/:user_id', (req, res) => {
 // POST --- CREATE SUBSCRIPTION
 router.post('/create', (req, res) => {
 
-    // el corenter y la house no salen de ahí
     const { coRenter, house, totalDays } = req.body
 
     House

@@ -4,10 +4,10 @@ import housesService from "../../services/houses.service"
 import bookingsService from "../../services/bookings.service"
 import { Form, Button } from "react-bootstrap"
 import { useNavigate } from "react-router-dom"
-// import Calendar from 'react-calendar'
 import { DateRangePicker, SingleDatePicker, DayPickerRangeController } from 'react-dates'
 import Moment, { localeData } from 'moment';
 import { extendMoment } from 'moment-range'
+import { END_DATE } from 'react-dates/constants';
 
 const moment = extendMoment(Moment)
 
@@ -16,12 +16,11 @@ const Bookings = ({ houseId, bookings }) => {
     const { user } = useContext(AuthContext)
 
     const [subscriptionId, setSubscriptionId] = useState()
+    const [daysLeftToBook, setDaysLeftToBook] = useState()
 
     const [startDate, setStartDate] = useState()
     const [endDate, setEndDate] = useState()
     const [focusedInput, setFocusedInput] = useState()
-
-    const [isLoaded, setIsLoaded] = useState(false)
 
     const [bookingState, setBookingState] = useState({
         subscription: '',
@@ -33,39 +32,15 @@ const Bookings = ({ houseId, bookings }) => {
 
         housesService
             .getSubscriptionOfOneUserForThisHouse(houseId, user?._id)
-            .then(({ data }) => setSubscriptionId(data[0]._id))
+            .then(({ data }) => {
+                setSubscriptionId(data[0]._id)
+                setDaysLeftToBook(data[0].daysLeftToBook)
+            })
             .catch(err => console.log(err))
 
     }, [user])
 
     const navigate = useNavigate()
-
-
-
-    // setBookingState({
-    //     ...bookingState,
-    //     subscription: subscriptionId,
-    //     entryDate: startDate._d,
-    //     exitDate: endDate._d
-    // })
-    // console.log(bookingState)
-
-
-    // DAYS BLOCKED
-    // const bookings = [{ startDate: '2022-04-25T22:00:00.000Z', endDate: '2022-04-27T22:00:00.000Z' }, { startDate: '2022-04-01T22:00:00.000Z', endDate: '2022-04-05T22:00:00.000Z' }]
-
-    // useEffect(() => {
-    //     housesService
-    //         .getAllBookingsOfOneHose(houseId)
-    //         .then(({ data }) => {
-    //             data.forEach(eachBooking => {
-    //                 bookings.push({ startDate: eachBooking.entryDate, endDate: eachBooking.exitDate })
-    //             })
-    //             console.log(bookings)
-    //             setIsLoaded(true)
-    //         })
-    //         .catch(err => console.log(err))
-    // }, [])
 
     const isBlocked = (date) => {
 
@@ -75,25 +50,16 @@ const Bookings = ({ houseId, bookings }) => {
         bookings.map(eachBooking => {
             bookedRanges = [...bookedRanges,
             moment.range(eachBooking.startDate, eachBooking.endDate)]
-            // console.log('holaaaaa', bookedRanges)
         })
 
         blocked = bookedRanges.find(range => range.contains(date))
-        // console.log('estas son las blocked', blocked)
 
-        // setIsLoaded(true)
         return blocked
     }
 
     const handleInputChange = (startDate, endDate) => {
         setStartDate(startDate)
         setEndDate(endDate)
-        // setBookingState({
-        //     ...bookingState,
-        //     subscription: subscriptionId,
-        //     entryDate: startDate._d,
-        //     exitDate: endDate._d
-        // })
     }
 
     useEffect(() => {
@@ -109,13 +75,6 @@ const Bookings = ({ houseId, bookings }) => {
     function handleSubmit(e) {
         e.preventDefault()
 
-        // setBookingState({
-        //     ...bookingState,
-        //     subscription: subscriptionId,
-        //     entryDate: startDate._d,
-        //     exitDate: endDate._d
-        // })
-
         bookingsService
             .createBooking(bookingState)
             .then(() => {
@@ -124,37 +83,47 @@ const Bookings = ({ houseId, bookings }) => {
             .catch(err => console.log(err))
     }
 
+    const maximumDays = daysLeftToBook;
+    const isOutsideRange = day => (
+        focusedInput === END_DATE && (day.isBefore(startDate) || day.isAfter(startDate.clone().add(maximumDays, 'days')))
+    );
+
 
     return (
         <article>
-            <h3>Haz una reserva</h3>
-            <>
-                <Form onSubmit={handleSubmit}>
-                    <Button variant="dark" type="submit" style={{ width: '100%' }}>Crear reserva</Button>
-                    {/* <Form.Control type="text" name="entryDate" value={startDate?._d} onChange={handleInputChange} />
-                    <Form.Control type="text" name="exitDate" value={endDate?._d} onChange={handleInputChange} /> */}
-                    {/* <Form.Control type="text" name="entryDate" value={bookingState.entryDate} />
-                    <Form.Control type="text" name="exitDate" value={bookingState.exitDate} /> */}
-                </Form>
+            {
+                daysLeftToBook <= 0 ? <p>Has agotado tus días</p> :
 
-                {
-                    // isLoaded && <DateRangePicker
-                    <DateRangePicker
+                    <>
+                        <h3>Haz una reserva</h3>
 
-                        startDate={startDate} // momentPropTypes.momentObj or null,
-                        startDateId="your_unique_start_date_id" // PropTypes.string.isRequired,
-                        endDate={endDate} // momentPropTypes.momentObj or null,
-                        endDateId="your_unique_end_date_id" // PropTypes.string.isRequired,
-                        onDatesChange={({ startDate, endDate }) => handleInputChange(startDate, endDate)}
+                        <Form onSubmit={handleSubmit}>
+                            <Button variant="dark" type="submit" style={{ width: '100%' }}>Crear reserva</Button>
+                        </Form>
+
+                        {
+                            <DateRangePicker
+
+                                startDate={startDate} // momentPropTypes.momentObj or null,
+                                startDateId="your_unique_start_date_id" // PropTypes.string.isRequired,
+                                endDate={endDate} // momentPropTypes.momentObj or null,
+                                endDateId="your_unique_end_date_id" // PropTypes.string.isRequired,
+                                onDatesChange={({ startDate, endDate }) => handleInputChange(startDate, endDate)}
 
 
-                        // PropTypes.func.isRequired,
-                        focusedInput={focusedInput} // PropTypes.oneOf([START_DATE, END_DATE]) or null,
-                        onFocusChange={focusedInput => setFocusedInput(focusedInput)} // PropTypes.func.isRequired,
-                        isDayBlocked={isBlocked}
-                    />
-                }
-            </>
+                                // PropTypes.func.isRequired,
+                                focusedInput={focusedInput} // PropTypes.oneOf([START_DATE, END_DATE]) or null,
+                                onFocusChange={focusedInput => setFocusedInput(focusedInput)} // PropTypes.func.isRequired,
+                                isDayBlocked={isBlocked}
+                                isOutsideRange={isOutsideRange}
+                            />
+                        }
+
+
+                    </>
+
+            }
+
         </article>
     )
 }
