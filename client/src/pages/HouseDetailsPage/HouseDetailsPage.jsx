@@ -10,7 +10,6 @@ import './HouseDetailsPage.css'
 import subscriptionsService from "../../services/subscriptions.service"
 import HouseImages from "../../components/HouseImages/HouseImages"
 import Bookings from "../../components/Bookings/Bookings"
-import Calendar from 'react-calendar'
 
 const HouseDetailsPage = () => {
 
