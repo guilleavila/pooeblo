@@ -73,6 +73,11 @@ const UserProfilePage = () => {
 
             <h1>Bienvenid@ {user?.firstName}</h1>
 
+            <h2>Aquí deberían ir tus rentings</h2>
+            <Row>
+                < ResultsHouses houses={subscriptions} width={4} />
+            </Row>
+
             <h2>Aquí deberían ir los pueblos a los que sigues</h2>
             <Row>
                 {isLoaded && < MyFollowedVillages followedVillages={userDetails.followedVillages} />}
@@ -81,11 +86,6 @@ const UserProfilePage = () => {
             <h2>Aquí deberían ir tus casas favoritas</h2>
             <Row>
                 {isLoaded && < ResultsHouses houses={userDetails.favHouses} width={6} />}
-            </Row>
-
-            <h2>Aquí deberían ir tus rentings</h2>
-            <Row>
-                < ResultsHouses houses={subscriptions} width={4} />
             </Row>
 
             <h2>Aquí deberían ir tus casas</h2>

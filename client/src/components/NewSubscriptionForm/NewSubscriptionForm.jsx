@@ -40,9 +40,7 @@ const NewSubscriptionForm = ({ priceDay }) => {
 
         subscriptionsService
             .createSubscription(subscriptionState)
-            .then(() => {
-                navigate('/')
-            })
+            .then(() => { navigate(`/perfil`) })
             .catch(err => console.log(err))
     }
 

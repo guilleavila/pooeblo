@@ -25,8 +25,28 @@ const HouseDetailsPage = () => {
 
     const [houseImages, setHouseImages] = useState([])
 
+    const [bookings, setBookings] = useState([])
+    const [bookingsLoaded, setBookingsLoaded] = useState(false)
+
     const { house_id } = useParams()
     const { user } = useContext(AuthContext)
+
+    useEffect(() => {
+        housesService
+            .getAllBookingsOfOneHose(house_id)
+            .then(({ data }) => {
+                let newArr = [...bookings]
+
+                data.forEach(eachBooking => {
+                    newArr.push({ startDate: eachBooking.entryDate, endDate: eachBooking.exitDate })
+                })
+                setBookings(newArr)
+                console.log('soy las bookings', bookings)
+                setBookingsLoaded(true)
+            })
+            .catch(err => console.log(err))
+    }, [])
+
 
     function updataeImagesState(images) {
         setHouseImages(images)
@@ -90,6 +110,7 @@ const HouseDetailsPage = () => {
             })
     }
 
+
     const handleFavBtn = () => {
 
         if (!isFav) {
@@ -140,7 +161,7 @@ const HouseDetailsPage = () => {
             <Row>
                 <Col sm={9}>
                     <h1>{houseDetails?.name} </h1>
-                    {isSuscriber ? <Bookings houseId={house_id} /> : <NewSubscriptionForm {...houseDetails} />}
+                    {isSuscriber ? (bookingsLoaded && <Bookings houseId={house_id} bookings={bookings} />) : <NewSubscriptionForm {...houseDetails} />}
                 </Col>
                 <Col sm={3}>
                     <FavBtn btnState={btnState} handleFavBtn={handleFavBtn} />
