@@ -7,23 +7,14 @@ import subscriptionsService from "../../services/subscriptions.service"
 
 const NewSubscriptionForm = ({ priceDay }) => {
 
-    const { user } = useContext(AuthContext)
     const { house_id } = useParams()
 
     const [subscriptionState, setSubscriptionState] = useState({
-        coRenter: user?._id,
         house: house_id,
         totalPrice: 0,
         totalDays: 0,
         daysLeftToBook: 0
     })
-
-    useEffect(() => {
-        setSubscriptionState({
-            ...subscriptionState,
-            coRenter: user?._id,
-        })
-    }, [user])
 
     const navigate = useNavigate()
 

@@ -18,7 +18,7 @@ const MyHouses = () => {
 
     const getMyHouses = () => {
         userService
-            .getAllPropertiesOfOneUser(user?._id)
+            .getAllPropertiesOfOneUser()
             .then(({ data }) => {
                 setMyHouses(data)
                 setIsLoaded(true)

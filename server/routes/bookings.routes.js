@@ -10,8 +10,7 @@ router.post("/create", (req, res) => {
 
     const { subscription, entryDate, exitDate } = req.body
 
-    const entry = new Date(entryDate)
-    const exit = new Date(exitDate)
+    const entry = new Date(entryDate), exit = new Date(exitDate)
 
     const totalDays = (exit - entry) / (1000 * 3600 * 24)
 
@@ -55,9 +54,10 @@ router.put('/:booking_id/edit', (req, res) => {
     Booking
         .findById(booking_id)
         .then(foundBooking => {  // guardamos fechas originales
-            const originalEntry = foundBooking.entryDate
-            const originalExit = foundBooking.exitDate
+            const originalEntry = deletedBooking.entryDate
+            const originalExit = deletedBooking.exitDate
             const originalTotalDays = (originalExit - originalEntry) / (1000 * 3600 * 24)
+
             return Subscription.findByIdAndUpdate(foundBooking.subscription, { $inc: { daysLeftToBook: originalTotalDays } }, { new: true })
         })
         .then(() => {
@@ -66,6 +66,19 @@ router.put('/:booking_id/edit', (req, res) => {
         .then((updatedBooking) => {
             return Subscription.findByIdAndUpdate(updatedBooking.subscription, { $inc: { daysLeftToBook: -totalDays } }, { new: true })
         })
+
+    // .then(foundBooking => {  // guardamos fechas originales
+    //     const { originalEntry, originalExit } = foundBooking
+    //     const originalTotalDays = (originalExit - originalEntry) / (1000 * 3600 * 24)
+
+    //     return Promise.all([
+    //         Subscription.findByIdAndUpdate(foundBooking.subscription, { $inc: { daysLeftToBook: originalTotalDays } }, { new: true }),
+    //         Booking.findByIdAndUpdate(booking_id, { entryDate, exitDate })
+    //     ])
+    // })
+    // .then(([, updatedBooking]) => {
+    //     return Subscription.findByIdAndUpdate(updatedBooking.subscription, { $inc: { daysLeftToBook: -totalDays } }, { new: true })
+    // })
 
 
 

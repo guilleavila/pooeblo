@@ -4,6 +4,7 @@ const House = require('./../models/House.model')
 const User = require('./../models/User.model')
 const Subscription = require('./../models/Subscription.model')
 const Booking = require('./../models/Booking.model')
+const { isAuthenticated } = require('../middlewares/jwt.middleware')
 
 
 // --- GET ALL HOUSES ROUTE
@@ -43,6 +44,7 @@ router.get("/:house_id", (req, res) => {
 
     House
         .findById(house_id)
+        .populate('village')
         .then(response => res.json(response))
         .catch(err => res.status(500).json(err))
 })
@@ -52,15 +54,17 @@ router.get("/:house_id", (req, res) => {
 router.put("/:house_id/edit", (req, res) => {
 
     const { house_id } = req.params
-    const { name, description, priceDay, services, roomsDescription, maxGuests, images, availableDaysLeft, lat, lng } = req.body
+    // const { name, description, priceDay, services, roomsDescription, maxGuests, availableDaysLeft, lat, lng } = req.body
+    const { name, description, priceDay, services, roomsDescription, maxGuests, availableDaysLeft } = req.body
 
-    const location = {
-        type: 'Point',
-        coordinates: [lat, lng]
-    }
+
+    // const location = {
+    //     type: 'Point',
+    //     coordinates: [lat, lng]
+    // }
 
     House
-        .findByIdAndUpdate(house_id, { name, description, priceDay, services, roomsDescription, maxGuests, images, availableDaysLeft, location })
+        .findByIdAndUpdate(house_id, { name, description, priceDay, services, roomsDescription, maxGuests, availableDaysLeft })
         .then(response => res.json(response))
         .catch(err => res.status(500).json(err))
 })
@@ -95,31 +99,34 @@ router.delete("/:house_id/delete", (req, res) => {
 
 
 // --- ADD HOUSE TO FAVS ROUTE
-router.put('/:house_id/add-to-fav/:user_id', (req, res) => {
+router.put('/:house_id/add-to-fav', isAuthenticated, (req, res) => {
 
-    const { house_id, user_id } = req.params
+    const { house_id } = req.params
+    const { _id } = req.payload
 
     User
-        .findByIdAndUpdate(user_id, { $addToSet: { favHouses: house_id } })
+        .findByIdAndUpdate(_id, { $addToSet: { favHouses: house_id } })
         .then(response => res.json(response))
         .catch(err => res.status(500).json(err))
 })
 
 
 // --- SUBTRACT HOUSE FROM FAVS ROUTE
-router.put('/:house_id/subtract-from-fav/:user_id', (req, res) => {
+router.put('/:house_id/subtract-from-fav', isAuthenticated, (req, res) => {
 
-    const { house_id, user_id } = req.params
+    const { house_id } = req.params
+    const { _id } = req.payload
+
 
     User
-        .findByIdAndUpdate(user_id, { $pull: { favHouses: house_id } })
+        .findByIdAndUpdate(_id, { $pull: { favHouses: house_id } })
         .then(response => res.json(response))
         .catch(err => res.status(500).json(err))
 })
 
 
-// --- GET ALL BOOKINGS
-router.get('/:house_id/get-bookings', (req, res) => {
+// --- GET ALL BOOKINGS (all users) OF ONE HOUSE
+router.get('/:house_id/get-all-bookings', (req, res) => {
 
     const { house_id } = req.params
 
@@ -134,7 +141,7 @@ router.get('/:house_id/get-bookings', (req, res) => {
 
         .then((response) => {
 
-            let ultimateArr = []
+            let ultimateArr = []            // flat
 
             response.forEach(elm => ultimateArr.push(...elm))
             console.log('SPREAD', ultimateArr)
@@ -143,14 +150,40 @@ router.get('/:house_id/get-bookings', (req, res) => {
         .catch(err => res.status(500).json(err))
 })
 
+// --- GET ALL BOOKINGS OF ONE HOUSE (LOGED USER)
+router.get('/:house_id/get-all-my-bookings', isAuthenticated, (req, res) => {
 
-// --- GET USER'S SUBSCRIPTIONS
-router.get('/:house_id/:user_id/get-subscription', (req, res) => {
+    const { house_id } = req.params
+    const { _id } = req.payload
 
-    const { house_id, user_id } = req.params
 
     Subscription
-        .find({ house: house_id, coRenter: user_id })
+        .find({ house: house_id, coRenter: _id })
+        .then(foundSubscriptions => {
+
+            let bookings = foundSubscriptions.map(elm => Booking.find({ subscription: elm._id }))
+
+            return Promise.all(bookings)
+        })
+        .then((response) => {
+
+            let ultimateArr = []
+
+            response.forEach(elm => ultimateArr.push(...elm))
+            return res.json(ultimateArr)
+        })
+        .catch(err => res.status(500).json(err))
+})
+
+
+// --- GET USER'S SUBSCRIPTIONS
+router.get('/:house_id/get-subscription', isAuthenticated, (req, res) => {
+
+    const { house_id } = req.params
+    const { _id } = req.payload
+
+    Subscription
+        .find({ house: house_id, coRenter: _id })
         .then(response => res.json(response))
         .catch(err => res.status(500).json(err))
 })

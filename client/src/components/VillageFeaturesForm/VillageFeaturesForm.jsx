@@ -41,7 +41,7 @@ const VillageFeaturesForm = () => {
 
         villagesService
             .editVillageFeatures(village_id, featuresForm)
-            .then(({ data }) => {
+            .then(() => {
                 navigate('/iniciar-sesion')
             })
             .catch(err => console.log(err))

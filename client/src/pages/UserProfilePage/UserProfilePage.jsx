@@ -32,8 +32,10 @@ const UserProfilePage = () => {
     const getDetails = () => {
 
         userService
-            .getUserDetails(user?._id)
+            .getUserDetails()
             .then(({ data }) => {
+
+                console.log('Esto traigo del back', data)
                 setUserDetails(data)
                 setIsLoaded(true)
             })
@@ -42,12 +44,10 @@ const UserProfilePage = () => {
 
     const getSubscriptions = () => {
         subscriptionsService
-            .getAllSubscriptionsOfOneUser(user?._id)
+            .getAllSubscriptionsOfOneUser()
             .then(({ data }) => {
-                const subsArr = []
-                data.forEach(eachSubscription => {
-                    subsArr.push(eachSubscription.house)
-                })
+                const subsArr = data.map(elm => elm.house)
+
                 return subsArr
             })
             .then(subsArr => {
@@ -60,7 +60,7 @@ const UserProfilePage = () => {
 
     const getMyHouses = () => {
         userService
-            .getAllPropertiesOfOneUser(user?._id)
+            .getAllPropertiesOfOneUser()
             .then(({ data }) => {
                 setMyHouses(data)
             })

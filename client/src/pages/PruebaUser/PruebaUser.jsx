@@ -10,7 +10,7 @@ const PruebaUser = () => {
     return (
         <>
             {
-                !user ? <h1>Logeate zorra</h1> :
+                !user ? <h1>Logeate </h1> :
 
 
                     user.isVillage

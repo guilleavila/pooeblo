@@ -4,6 +4,17 @@ class HousesService {
 
     constructor() {
         this.api = axios.create({ baseURL: `${process.env.REACT_APP_API_URL}/houses` })
+
+        this.api.interceptors.request.use((config) => {
+
+            const storedToken = localStorage.getItem("authToken");
+
+            if (storedToken) {
+                config.headers = { Authorization: `Bearer ${storedToken}` }
+            }
+
+            return config
+        })
     }
 
     getAllHouses = () => {
@@ -30,20 +41,24 @@ class HousesService {
         return this.api.delete(`/${id}/delete`)
     }
 
-    addHouseToFavs = (id, user) => {
-        return this.api.put(`/${id}/add-to-fav/${user}`)
+    addHouseToFavs = id => {
+        return this.api.put(`/${id}/add-to-fav`)
     }
 
-    substractHouseFromFavs = (id, user) => {
-        return this.api.put(`/${id}/subtract-from-fav/${user}`)
+    substractHouseFromFavs = id => {
+        return this.api.put(`/${id}/subtract-from-fav`)
     }
 
     getAllBookingsOfOneHose = id => {
-        return this.api.get(`/${id}/get-bookings`)
+        return this.api.get(`/${id}/get-all-bookings`)
     }
 
-    getSubscriptionOfOneUserForThisHouse = (houseId, userId) => {
-        return this.api.get(`/${houseId}/${userId}/get-subscription`)
+    getAllMyBookingsOfOneHouse = id => {
+        return this.api.get(`/${id}/get-all-my-bookings`)
+    }
+
+    getSubscriptionOfOneUserForThisHouse = id => {
+        return this.api.get(`/${id}/get-subscription`)
     }
 
 }

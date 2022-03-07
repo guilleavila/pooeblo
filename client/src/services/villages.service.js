@@ -4,6 +4,17 @@ class VillagesService {
 
     constructor() {
         this.api = axios.create({ baseURL: `${process.env.REACT_APP_API_URL}/villages` })
+
+        this.api.interceptors.request.use((config) => {
+
+            const storedToken = localStorage.getItem("authToken");
+
+            if (storedToken) {
+                config.headers = { Authorization: `Bearer ${storedToken}` }
+            }
+
+            return config
+        })
     }
 
     getAllVillages = () => {
@@ -26,12 +37,12 @@ class VillagesService {
         return this.api.delete(`/${id}/delete`)
     }
 
-    followVillage = (village_id, user_id) => {
-        return this.api.put(`/${village_id}/follow/${user_id}`)
+    followVillage = (village_id) => {
+        return this.api.put(`/${village_id}/follow`)
     }
 
-    unfollowVillage = (village_id, user_id) => {
-        return this.api.put(`/${village_id}/unfollow/${user_id}`)
+    unfollowVillage = (village_id) => {
+        return this.api.put(`/${village_id}/unfollow`)
     }
 
     getAllHousesOfOneVillage = id => {

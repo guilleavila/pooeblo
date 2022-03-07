@@ -33,7 +33,7 @@ const VillageDetailsPage = () => {
 
     const checkIfFollowed = () => {
         userService
-            .getUserDetails(user?._id)
+            .getUserDetails()
             .then(({ data }) => {
 
                 let foundFollowedVillage = ''
@@ -59,7 +59,7 @@ const VillageDetailsPage = () => {
 
         if (!isFollowing) {
             villagesService
-                .followVillage(village_id, user?._id)
+                .followVillage(village_id)
                 .then(() => {
                     setIsFollowing(true)
                     setBtnState('Dejar de seguir')
@@ -67,7 +67,7 @@ const VillageDetailsPage = () => {
                 .catch(err => console.log(err))
         } else if (isFollowing) {
             villagesService
-                .unfollowVillage(village_id, user?._id)
+                .unfollowVillage(village_id)
                 .then(() => {
                     setIsFollowing(false)
                     setBtnState('Seguir pueblo')

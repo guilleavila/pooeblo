@@ -16,21 +16,18 @@ const Navigation = () => {
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="ms-auto">
-                        <NavLink to="/">
-                            <Nav.Link as="span">Inicio</Nav.Link>
-                        </NavLink>
 
                         {
                             isLoggedIn ?
                                 <>
-                                    <NavLink to="/iniciar-sesion">
-                                        <Nav.Link as="span" onClick={logOutUser}>Cerrar sesión</Nav.Link>
-                                    </NavLink>
                                     <NavLink to="/perfil">
                                         <Nav.Link as="span">Perfil</Nav.Link>
                                     </NavLink>
                                     <NavLink to="/nueva-casa">
                                         <Nav.Link as="span">Crear casa</Nav.Link>
+                                    </NavLink>
+                                    <NavLink to="/iniciar-sesion">
+                                        <Nav.Link as="span" onClick={logOutUser}>Cerrar sesión</Nav.Link>
                                     </NavLink>
                                 </>
                                 :

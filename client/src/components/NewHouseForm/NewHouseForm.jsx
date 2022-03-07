@@ -200,6 +200,9 @@ const NewHouseForm = () => {
             <Form.Group className="mb-3">
                 <Form.Label>Imágenes</Form.Label>
                 <Form.Control type="file" onChange={uploadHouseImages} multiple />
+                <Form.Text className="text-muted">
+                    Máx. 5 imágenes
+                </Form.Text>
             </Form.Group>
 
             <Form.Group className="mb-3">

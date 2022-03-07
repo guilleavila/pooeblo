@@ -4,10 +4,21 @@ class SubscriptionsService {
 
     constructor() {
         this.api = axios.create({ baseURL: `${process.env.REACT_APP_API_URL}/subscriptions` })
+
+        this.api.interceptors.request.use((config) => {
+
+            const storedToken = localStorage.getItem("authToken");
+
+            if (storedToken) {
+                config.headers = { Authorization: `Bearer ${storedToken}` }
+            }
+
+            return config
+        })
     }
 
-    getAllSubscriptionsOfOneUser = (id) => {  // tengo que pasarle el usuario o lo cojo del contexto?
-        return this.api.get(`/mySubscription/${id}`)
+    getAllSubscriptionsOfOneUser = () => {  // tengo que pasarle el usuario o lo cojo del contexto?
+        return this.api.get(`/my-subscription`)
     }
 
     createSubscription = subscription => {

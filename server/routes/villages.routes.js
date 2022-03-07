@@ -4,6 +4,7 @@ const Village = require('../models/Village.model')
 const User = require('../models/User.model')
 const House = require('../models/House.model')
 const Subscription = require('../models/Subscription.model')
+const { isAuthenticated } = require('../middlewares/jwt.middleware')
 
 
 // GET --- GET ALL VILLAGES
@@ -56,7 +57,7 @@ router.put('/:village_id/edit-features', (req, res) => {
     const { village_id } = req.params
     let { distanceToCity, residents, averageRentingPrice, averagePurchasePrice, healthService, sportsFacilities, isCoastalVillage, isMountainVillage, otherServices } = req.body
 
-    healthService === 'on' ? healthService = true : healthService = false
+    healthService === 'on' ? healthService = true : healthService = false       // .checked prop
     sportsFacilities === 'on' ? sportsFacilities = true : sportsFacilities = false
 
 
@@ -84,22 +85,24 @@ router.delete('/:village_id/delete', (req, res) => {
 
 
 // PUT --- FOLLOW VILLAGE
-router.put('/:village_id/follow/:user_id', (req, res) => {
-    const { village_id, user_id } = req.params
+router.put('/:village_id/follow', isAuthenticated, (req, res) => {
+    const { village_id } = req.params
+    const { _id } = req.payload
 
     User
-        .findByIdAndUpdate(user_id, { $addToSet: { followedVillages: village_id } })
+        .findByIdAndUpdate(_id, { $addToSet: { followedVillages: village_id } })
         .then(response => res.json(response))
         .catch(err => res.status(500).json(err))
 })
 
 
 // PUT --- UNFOLLOW VILLAGE
-router.put('/:village_id/unfollow/:user_id', (req, res) => {
-    const { village_id, user_id } = req.params
+router.put('/:village_id/unfollow', isAuthenticated, (req, res) => {
+    const { village_id } = req.params
+    const { _id } = req.payload
 
     User
-        .findByIdAndUpdate(user_id, { $pull: { followedVillages: village_id } })
+        .findByIdAndUpdate(_id, { $pull: { followedVillages: village_id } })
         .then(response => res.json(response))
         .catch(err => res.status(500).json(err))
 })
@@ -127,11 +130,8 @@ router.get('/:village_id/subscriptions', (req, res) => {
         .then(foundHouses => {
 
             let subscriptions = foundHouses.map(elm => Subscription.find({ house: elm._id }))
-
             return Promise.all(subscriptions)
-
         })
-
         .then((response) => {
             let ultimateArr = []
 

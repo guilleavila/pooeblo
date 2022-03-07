@@ -33,6 +33,7 @@ const AppRoutes = () => {
             <Route path="/perfil" element={<UserProfilePage />} />
             <Route path='/nueva-casa' element={<NewHousePage />} />
             <Route path='/casa/:house_id' element={<HouseDetailsPage />} />
+            {/* <Route path='/casa/:house_id/editar' element={<HouseEditPage />} /> */}
             <Route path='/pagar' element={<PaymentPage />} />
 
         </Routes>

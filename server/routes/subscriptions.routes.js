@@ -2,14 +2,16 @@ const router = require('express').Router()
 
 const Subscription = require('../models/Subscription.model')
 const House = require('../models/House.model')
+const { isAuthenticated } = require('../middlewares/jwt.middleware')
 
 // GET - GET USER'S SUBSCRIPTIONS
-router.get('/mySubscription/:user_id', (req, res) => {
+router.get('/my-subscription', isAuthenticated, (req, res) => {
     // no es un formulario --> mirar contexto
-    const { user_id } = req.params
+    const { _id } = req.payload
+
 
     Subscription
-        .find({ coRenter: user_id })
+        .find({ coRenter: _id })
         .populate('house')
         .populate({
             path: 'house',
@@ -23,17 +25,18 @@ router.get('/mySubscription/:user_id', (req, res) => {
 
 
 // POST --- CREATE SUBSCRIPTION
-router.post('/create', (req, res) => {
+router.post('/create', isAuthenticated, (req, res) => {
 
     // el corenter y la house no salen de ahí
-    const { coRenter, house, totalDays } = req.body
+    const { house, totalDays } = req.body
+    const {_id} = req.payload
 
     House
         .findById(house)
         .select('priceDay')
         .then(({ priceDay }) => {
             const totalPrice = priceDay * totalDays
-            return Subscription.create({ coRenter, house, totalDays, totalPrice, daysLeftToBook: totalDays })
+            return Subscription.create({ coRenter: _id, house, totalDays, totalPrice, daysLeftToBook: totalDays })
         })
         .then(response => res.json(response))
         .catch(err => res.status(500).json(err))
