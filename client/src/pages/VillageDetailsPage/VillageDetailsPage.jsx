@@ -1,10 +1,11 @@
 import { Container, Row, Col, Button } from "react-bootstrap"
-import { useState, useEffect, useContext } from "react"
+import { useState, useEffect, useContext, useCallback } from "react"
 import { useParams, Link } from "react-router-dom"
 import villagesService from "../../services/villages.service"
 import { AuthContext } from "../../context/auth.context"
 import userService from "../../services/user.service"
 import FollowBtn from "../../components/FollowBtn/FollowBtn"
+import { GoogleMap, useJsApiLoader, LoadScript, Marker } from '@react-google-maps/api';
 
 
 const VillageDetailsPage = () => {
@@ -14,6 +15,12 @@ const VillageDetailsPage = () => {
     const [isFollowing, setIsFollowing] = useState()
     const [btnState, setBtnState] = useState('Cargando...')
 
+    const [map, setMap] = useState(null)
+
+    const [coordinates, setCoordinates] = useState()
+
+    const [isLoaded2, setIsLoaded2] = useState(false)
+
     const { village_id } = useParams()
     const { user } = useContext(AuthContext)
 
@@ -22,7 +29,12 @@ const VillageDetailsPage = () => {
     useEffect(() => {
         villagesService
             .getOneVillage(village_id)
-            .then(({ data }) => setVillageDetails(data))
+            .then(({ data }) => {
+                console.log('data =>', data.location.coordinates);
+                setVillageDetails(data)
+                setCoordinates(data.coordinates)
+                setIsLoaded2(true)
+            })
             .catch(err => console.log(err))
     }, [])
 
@@ -76,7 +88,22 @@ const VillageDetailsPage = () => {
         }
     }
 
+    const { isLoaded } = useJsApiLoader({
+        id: 'google-map-script',
+        googleMapsApiKey: process.env.REACT_APP_API_KEY
+    })
+
+    const containerStyle = {
+        width: '400px',
+        height: '400px'
+    };
+
+
+
+
     return (
+
+
         <section>
 
             <Container>
@@ -94,6 +121,27 @@ const VillageDetailsPage = () => {
                     {/* <Col md={{ span: 4, offset: 1 }}> */}
                     {/* </Col> */}
                 </Row>
+
+                {
+                    isLoaded2 && isLoaded && <GoogleMap
+                        mapContainerStyle={containerStyle}
+                        center={{
+                            lat: villageDetails.location?.coordinates[0],
+                            lng: villageDetails.location?.coordinates[1]
+                        }}
+                        zoom={15}
+                    >
+                        <Marker
+                            position={{
+                                lat: villageDetails.location?.coordinates[0],
+                                lng: villageDetails.location?.coordinates[1]
+                            }}
+                        // icon={''}
+                        />
+                    </GoogleMap>
+                }
+
+
 
             </Container>
         </section>

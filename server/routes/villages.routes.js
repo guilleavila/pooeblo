@@ -26,6 +26,7 @@ router.get('/findOneVillage/:village_id', (req, res) => {
 
     Village
         .findById(village_id)
+        .sort({ name: 1 })
         .then(response => res.json(response))
         .catch(err => res.status(500).json(err))
 })
