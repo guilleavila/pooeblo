@@ -8,6 +8,7 @@ import { DateRangePicker, SingleDatePicker, DayPickerRangeController } from 'rea
 import Moment, { localeData } from 'moment';
 import { extendMoment } from 'moment-range'
 import { END_DATE } from 'react-dates/constants';
+import MyNextBookingsInThisHouse from "../MyNextBookingsInThisHouse/MyNextBookingsInThisHouse"
 
 const moment = extendMoment(Moment)
 
@@ -118,6 +119,7 @@ const Bookings = ({ houseId, bookings }) => {
                             />
                         }
 
+                        <MyNextBookingsInThisHouse houseId={houseId} moment={moment} />
 
                     </>
 
