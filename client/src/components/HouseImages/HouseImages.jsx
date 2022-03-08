@@ -11,17 +11,10 @@ const HouseImages = ({ _id, isMine, updataeImagesState, houseImages }) => {
     // const [houseImages, setHouseImages] = useState([])
     const [showBtn, setShowBtn] = useState('hidden')
 
-    // useEffect(() => {
-    //     setHouseImages(images)
-    // },[])
-
     // EDIT IMAGES BTN
     const handleEditBtn = () => {
         if (showBtn === 'hidden') setShowBtn('shown')
         else setShowBtn('hidden')
-
-        console.log(houseImages)
-        console.log(_id)
     }
 
     const handleDeleteBtn = (imgUrl) => {

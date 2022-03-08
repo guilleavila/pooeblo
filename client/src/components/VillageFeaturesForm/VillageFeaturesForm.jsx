@@ -4,20 +4,20 @@ import { Form, Button } from 'react-bootstrap'
 import { useNavigate, useParams } from "react-router-dom"
 
 
-const VillageFeaturesForm = () => {
+const VillageFeaturesForm = ({ _id, features, closeModal, refreshDetails }) => {
 
     const [featuresForm, setFeaturesForm] = useState({
-        distanceToCity: '',
-        residents: '',
-        averagePurchasePrice: '',
-        healthService: false,
-        sportsFacilities: false,
-        isCoastalVillage: false,
-        isMountainVillage: false,
-        otherServices: ''
+        distanceToCity: features.distanceToCity,
+        residents: features.residents,
+        averagePurchasePrice: features.averagePurchasePrice,
+        healthService: features.healthService,
+        sportsFacilities: features.sportsFacilities,
+        isCoastalVillage: features.isCoastalVillage,
+        isMountainVillage: features.isMountainVillage,
+        otherServices: features.otherServices
     })
 
-    const { village_id } = useParams()
+    // const { village_id } = useParams()
     const navigate = useNavigate()
 
     const handleInputChange = e => {
@@ -40,9 +40,11 @@ const VillageFeaturesForm = () => {
         e.preventDefault()
 
         villagesService
-            .editVillageFeatures(village_id, featuresForm)
+            .editVillageFeatures(_id, featuresForm)
             .then(() => {
-                navigate('/iniciar-sesion')
+                // navigate('/iniciar-sesion')
+                closeModal()
+                refreshDetails()
             })
             .catch(err => console.log(err))
     }

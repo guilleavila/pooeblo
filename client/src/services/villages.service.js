@@ -25,7 +25,7 @@ class VillagesService {
         return this.api.get(`/findOneVillage/${id}`)
     }
 
-    editVillageInfo = (id, villageInfo) => {
+    editVillageInfo = (id, villageInfo) => {                    // ---> sacar del payload el id
         return this.api.put(`/${id}/edit-info`, villageInfo)
     }
 

@@ -26,10 +26,6 @@ const HouseInfo = ({ description, maxGuests, availableDaysLeft, priceDay, servic
                 <h2>Estancias </h2>
                 <p>{roomsDescription} </p>
             </Col>
-            <Col sm={8}>
-                <h2>Servicios </h2>
-                <p>{services} </p>
-            </Col>
         </>
     )
 }

@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import GooglePlacesAutocomplete from 'react-google-places-autocomplete'
 import { geocodeByAddress, getLatLng } from 'react-google-places-autocomplete';
 
-const VillageSignupForm = ({ updateState }) => {
+const VillageSignupForm = ({ updateState, getId }) => {
 
     const [value, setValue] = useState(null);
     const [latitude, setLatitude] = useState()
@@ -16,7 +16,6 @@ const VillageSignupForm = ({ updateState }) => {
 
     geocodeByAddress(value?.value.description)
         .then(results => {
-            console.log('SOY EL RESULT', results)
             setVillageName(results[0].address_components[0].long_name)
             setProv(results[0].address_components[1].long_name)
             setComAut(results[0].address_components[2].long_name)
@@ -60,14 +59,12 @@ const VillageSignupForm = ({ updateState }) => {
         authService
             .villageSignup(signupForm, latitude, longitude)
             .then(({ data }) => {
+                getId(data.village._id)
                 updateState()
-                navigate(`/caracteristicas/${data.village._id}`)
+                // navigate(`/caracteristicas/${data.village._id}`)
             })
             .catch(err => console.log(err))
     }
-
-
-    console.log('SOY EL VALUE', value)
 
     return (
 
